@@ -1,0 +1,31 @@
+server:
+  port: 8080
+#配置mysql数据库
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hotel?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: password
+    #ali数据池
+    druid:
+      # 初始化大小
+      initialSize: 5
+      #最小值
+      minIdle: 5
+      #最大值
+      maxActive: 20
+      #最大等待时间，配置获取连接等待超时，时间单位都是毫秒ms
+      maxWait: 60000
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接
+      timeBetweenEvictionRunsMillis: 60000
+      #配置一个连接在池中最小生存的时间
+      minEvictableIdleTimeMillis: 300000
+      servlet:
+        multipart:
+          max-file-size: 50MB
+          max-request-size: 500MB
+mybatis:
+  #mapper.xml存放路径（resource）
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.xhu.onlinecourse.entity
