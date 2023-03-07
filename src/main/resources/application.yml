@@ -1,10 +1,12 @@
 server:
   port: 8080
+  servlet:
+    context-path: /courseproj/server
 #配置mysql数据库
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/hotel?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/onlinecourse?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8
     username: root
     password: password
     #ali数据池
@@ -21,11 +23,29 @@ spring:
       timeBetweenEvictionRunsMillis: 60000
       #配置一个连接在池中最小生存的时间
       minEvictableIdleTimeMillis: 300000
-      servlet:
-        multipart:
-          max-file-size: 50MB
-          max-request-size: 500MB
+      #springboot监控
+      aop-patterns: com.xhu.onlinecourse.*
+      stat-view-servlet: #监控页配置
+        enabled: true
+        login-username: admin
+        login-password: admin
+        resetEnable: false
+# 设置文件上传大小
+  servlet:
+    multipart:
+      max-request-size: 512MB
+      max-file-size: 512MB
+
 mybatis:
+
   #mapper.xml存放路径（resource）
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.xhu.onlinecourse.entity
+
+  configuration:
+    #输出日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    mapUnderscoreToCamelCase: true
+    map-underscore-to-camel-case: true
+#logging:
+#  config: classpath:log4j2.properties
