@@ -1,11 +1,10 @@
 package com.xhu.onlinecourse.mapper;
 
-import com.xhu.onlinecourse.entity.Adm;
+import com.xhu.onlinecourse.entity.Teacher;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-
 @Mapper
-public interface AdmMapper {
-    List<Adm> getAdmList();
+public interface TeacherMapper {
+    List<Teacher> teacherList();
 }

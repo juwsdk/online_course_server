@@ -5,10 +5,11 @@ server:
 #配置mysql数据库
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/onlinecourse?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8
     username: root
     password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/onlinecourse?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8
+    type: com.alibaba.druid.pool.DruidDataSource
     #ali数据池
     druid:
       # 初始化大小
@@ -37,7 +38,6 @@ spring:
       max-file-size: 512MB
 
 mybatis:
-
   #mapper.xml存放路径（resource）
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.xhu.onlinecourse.entity
@@ -47,5 +47,16 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     mapUnderscoreToCamelCase: true
     map-underscore-to-camel-case: true
-#logging:
-#  config: classpath:log4j2.properties
+#分页插件
+#打印日志
+logging:
+  file:
+    name: log/log.log
+  level:
+    root: info
+    com.xhu.onlinecourse: debug
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

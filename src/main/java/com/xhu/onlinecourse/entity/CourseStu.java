@@ -5,15 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 管理员表
+ * 学生选课表
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Adm {
-
-    private int admId;
-    private String admName;
-    private String admPassword;
-    private int admAuthoritylevels;
+public class CourseStu {
+    private Long courseStudentId;
+    private Long courseId;
+    private Long studentId;
 }

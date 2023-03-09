@@ -1,5 +1,7 @@
 package com.xhu.onlinecourse.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xhu.onlinecourse.entity.Adm;
 import com.xhu.onlinecourse.mapper.AdmMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,10 @@ public class AdmServiceImpl implements AdmService{
     @Autowired
     private AdmMapper admMapper;
     @Override
-    public List<Adm> getAllAdm() {
-        System.out.println(admMapper.getAllAdm());
-        return admMapper.getAllAdm();
+    public PageInfo<Adm> admList(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Adm> admList = admMapper.getAdmList();
+        return new PageInfo<>(admList);
     }
+
 }
