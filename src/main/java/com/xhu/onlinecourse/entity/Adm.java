@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Adm {
-
     private int admId;
     private String admName;
     private String admPassword;

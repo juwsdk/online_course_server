@@ -13,9 +13,9 @@ public class StudentServiceImpl implements StudentService{
     @Autowired
     private StudentMapper studentMapper;
     @Override
-    public PageInfo<Student> studentList(int pageNum, int pageSize) {
+    public PageInfo<Student> studentList(int pageNum, int pageSize,String columnName,String value) {
         PageHelper.startPage(pageNum,pageSize);
-        List<Student> studentList = studentMapper.studentList();
+        List<Student> studentList = studentMapper.studentList(columnName,value);
         return new PageInfo<>(studentList);
     }
 

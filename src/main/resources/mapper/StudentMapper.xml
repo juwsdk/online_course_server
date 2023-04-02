@@ -4,12 +4,48 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xhu.onlinecourse.mapper.StudentMapper">
     <insert id="studentInsert" parameterType="Student">
-        insert into student(student_name,student_password,student_gender,student_birthday,student_phonenum,student_email,student_address)
-        values(#{studentName},#{studentPassword},#{studentGender},#{studentBirthday},#{studentPhonenum},#{studentEmail},#{studentAddress});
+        insert into student(student_name, student_password, student_gender, student_birthday, student_phonenum,
+                            student_email, student_address)
+        values (#{studentName}, #{studentPassword}, #{studentGender}, #{studentBirthday}, #{studentPhonenum},
+                #{studentEmail}, #{studentAddress});
     </insert>
 
+<!--    <select id="studentList" resultType="Student">-->
+<!--        select *-->
+<!--        from student-->
+<!--    </select>-->
     <select id="studentList" resultType="Student">
-        select * from student
+        select *
+        from student
+        <where>
+            <choose>
+                <when test="columnName=='studentId'">
+                    And student_id like '%${value}%'
+                </when>
+                <when test="columnName=='studentName'">
+                    And student_name like '%${value}%'
+                </when>
+                <when test="columnName=='studentGender'">
+                    And student_gender like '%${value}%'
+                </when>
+                <when test="columnName=='studentBirthday'">
+                    And student_birthday like '%${value}%'
+                </when>
+                <when test="columnName=='studentPhonenum'">
+                    And student_phonenum like '%${value}%'
+                </when>
+                <when test="columnName=='studentEmail'">
+                    And student_email like '%${value}%'
+                </when>
+                <when test="columnName=='studentAddress'">
+                    And student_address like '%${value}%'
+                </when>
+                <otherwise>
+                    '1'='1'
+                </otherwise>
+            </choose>
+        </where>
+
     </select>
 
 </mapper>

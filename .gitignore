@@ -29,7 +29,7 @@ mvnw.cmd
 /nbdist/
 /.nb-gradle/
 build/
-log
+logs/
 
 ### VS Code ###
 .vscode/

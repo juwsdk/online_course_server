@@ -1,11 +1,13 @@
 package com.xhu.onlinecourse;
 
+import com.xhu.onlinecourse.entity.Student;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.github.javafaker.Faker;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @SpringBootTest
@@ -48,5 +50,15 @@ class OnlineCourseApplicationTests {
                     name, password, gender, dateFormat.format(birthday)
                     , phoneNum, email, address));
         }
+    }
+    @Test
+    void courseContextLoads() {
+        Locale locale=new Locale("zh","CN");
+        Faker faker = new Faker(locale);
+        for (int i = 0; i < 20; i++) {
+            int TeacherNumer=faker.random().nextInt(6120100,6120130);
+            System.out.printf("(NULL,'%d',NULL,NULL,NULL),\n",TeacherNumer);
+        }
+
     }
 }

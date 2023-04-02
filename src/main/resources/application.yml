@@ -47,14 +47,15 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     mapUnderscoreToCamelCase: true
     map-underscore-to-camel-case: true
-#分页插件
 #打印日志
 logging:
-  file:
-    name: log/log.log
   level:
     root: info
     com.xhu.onlinecourse: debug
+  file:
+    name: logs/log.log
+
+#分页插件
 pagehelper:
   helper-dialect: mysql
   reasonable: true
