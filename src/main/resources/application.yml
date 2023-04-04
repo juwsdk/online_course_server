@@ -2,6 +2,8 @@ server:
   port: 8080
   servlet:
     context-path: /courseproj/server
+    encoding:
+      charset: utf-8
 #配置mysql数据库
 spring:
   datasource:

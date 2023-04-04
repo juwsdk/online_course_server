@@ -3,11 +3,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,11 +18,15 @@ import java.util.Map;
 @RequestMapping("/video")
 public class CourseVideoController {
 
-    private static final String VIDEO_PATH = "C:\\Users\\wp125\\Desktop\\学习资料\\数学\\复变函数与积分变换 60集全 李红 华中科技大学\\保形映射\\1.mp4";
-    private static final int CHUNK_SIZE = 4*1024 * 1024; // 1MB
-    @GetMapping("/chunk")
-    public ResponseEntity<byte[]> getVideo() throws IOException {
-        Path videoPath = Paths.get(VIDEO_PATH);
+    private static final String bathPath=System.getProperty("user.dir")+"\\src\\main\\resources\\static";
+
+
+
+    @GetMapping("/getResource")
+    public ResponseEntity<byte[]> getVideo(@RequestParam String srcUrl) throws IOException {
+//        String decodedUrl = URLDecoder.decode(srcUrl, StandardCharsets.UTF_8.toString());
+//        String fixedFilename = decodedUrl.replace("=", "");
+        Path videoPath = Paths.get(bathPath+srcUrl);
         byte[] videoBytes = Files.readAllBytes(videoPath);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);

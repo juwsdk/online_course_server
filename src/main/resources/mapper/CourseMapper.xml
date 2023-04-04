@@ -5,24 +5,53 @@
 <mapper namespace="com.xhu.onlinecourse.mapper.CourseMapper">
     <insert id="courseInsert">
         insert into course
-        values(null,#{teacherId},#{courseName},#{courseInfo},#{courseImage})
+        values (null, #{teacherId}, #{courseName}, #{courseInfo}, #{courseImage})
+    </insert>
+    <insert id="addNewCourseRes" parameterType="courseRes">
+        insert into course_res(course_res_id, res_video_name, res_file_name, course_id, res_blues)
+        values (null, #{resVideoName}, #{resFileName}, #{courseId}, #{resBlues})
     </insert>
 
     <select id="getCourseList" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
-        select course_id,course_name,teacher_name
-        from course left join teacher on course.teacher_id = teacher.teacher_id
+        select course_id, course.teacher_id, course_name, teacher_name
+        from course
+                 left join teacher on course.teacher_id = teacher.teacher_id
     </select>
+
+    <select id="getTopThreeCourseList" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
+        SELECT c.course_id, c.teacher_id, c.course_name, t.teacher_name
+        FROM course c
+                 LEFT JOIN teacher t ON c.teacher_id = t.teacher_id
+                 INNER JOIN (
+            SELECT cs.course_id
+            FROM course_stu cs
+            GROUP BY cs.course_id
+            ORDER BY COUNT(*) DESC
+            LIMIT 3
+        ) tmp ON c.course_id = tmp.course_id;
+    </select>
+
     <select id="getCourseById" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
-        select course_name,course_info,teacher_name
-        from course left join teacher t on course.teacher_id = t.teacher_id
-        where course_id=#{courseId}
+        select course_name, t.teacher_id, course_info, teacher_name
+        from course
+                 left join teacher t on course.teacher_id = t.teacher_id
+        where course_id = #{courseId}
     </select>
 
     <select id="getStudentCourseList" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
-        SELECT course.course_id,course_name,teacher_name
-        FROM course,course_stu,teacher
-        WHERE course.teacher_id=teacher.teacher_id AND student_id=#{studentId}
-          AND course_stu.`course_id`=course.`course_id`
+        SELECT course.course_id, teacher.teacher_id, course_name, teacher_name
+        FROM course,
+             course_stu,
+             teacher
+        WHERE course.teacher_id = teacher.teacher_id
+          AND student_id = #{studentId}
+          AND course_stu.`course_id` = course.`course_id`
     </select>
+    <select id="getCourseResList" resultType="com.xhu.onlinecourse.entity.CourseRes">
+        select *
+        from course_res
+        where course_id = #{courseId}
+    </select>
+
 
 </mapper>

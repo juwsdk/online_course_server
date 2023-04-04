@@ -13,4 +13,5 @@ public interface StudentMapper {
 //    List<Student> studentList();
     List<Student> studentList(@Param("columnName") String name, @Param("value") String value);
     int studentInsert(Student student);
+    int studentDelete(@Param("studentId") Long studentId);
 }

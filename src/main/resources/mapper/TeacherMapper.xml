@@ -5,6 +5,23 @@
 <mapper namespace="com.xhu.onlinecourse.mapper.TeacherMapper">
 
     <select id="teacherList" resultType="com.xhu.onlinecourse.entity.Teacher">
-        select * from teacher
+        select *
+        from teacher
+    </select>
+    <select id="teacherListById" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
+        select course_id, course_name, t.teacher_id, course_info, teacher_name
+        from course
+                 left join teacher t on course.teacher_id = t.teacher_id
+        where t.teacher_id = #{teacherId}
+    </select>
+    <select id="studentListByTeacherCourseId" resultType="com.xhu.onlinecourse.entity.Student">
+        SELECT student.student_id, student_name, student_gender, student_email
+        FROM student,
+             course_stu,
+             course
+        WHERE student.`student_id` = course_stu.`student_id`
+          AND course.`course_id` = course_stu.`course_id`
+          AND teacher_id = #{teacherId}
+          AND course.course_id = #{courseId}
     </select>
 </mapper>

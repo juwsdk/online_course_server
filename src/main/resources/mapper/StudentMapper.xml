@@ -9,8 +9,12 @@
         values (#{studentName}, #{studentPassword}, #{studentGender}, #{studentBirthday}, #{studentPhonenum},
                 #{studentEmail}, #{studentAddress});
     </insert>
+    <delete id="studentDelete">
+        delete from student
+        where student_id=#{studentId}
+    </delete>
 
-<!--    <select id="studentList" resultType="Student">-->
+    <!--    <select id="studentList" resultType="Student">-->
 <!--        select *-->
 <!--        from student-->
 <!--    </select>-->

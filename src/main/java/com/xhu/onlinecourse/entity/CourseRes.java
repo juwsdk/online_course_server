@@ -15,4 +15,5 @@ public class CourseRes {
     private String resVideoName;
     private String resFileName;
     private Long courseId;
+    private Long resBlues;
 }

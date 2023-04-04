@@ -2,7 +2,7 @@ package com.xhu.onlinecourse.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.xhu.onlinecourse.entity.Course;
+import com.xhu.onlinecourse.entity.CourseRes;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
 import com.xhu.onlinecourse.mapper.CourseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +32,15 @@ public class CourseServiceImpl implements CourseService {
         PageHelper.startPage(pageNum,pageSize);
         List<CourseTeacherVo> studentCourseList = courseMapper.getStudentCourseList(studentId);
         return new PageInfo<>(studentCourseList);
+    }
+
+    @Override
+    public List<CourseRes> getCourseResList(Long courseId) {
+        return courseMapper.getCourseResList(courseId);
+    }
+
+    @Override
+    public List<CourseTeacherVo> getTopThreeCourseList() {
+        return courseMapper.getTopThreeCourseList();
     }
 }
