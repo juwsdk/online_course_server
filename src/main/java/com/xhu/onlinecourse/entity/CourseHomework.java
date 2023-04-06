@@ -17,4 +17,7 @@ public class CourseHomework {
     private String courseHomeworkName;
     private Long courseId;
     private Date courseHomeworkDate;
+    private String courseHomeworkRes;
+    private String courseHomeworkDescription;
+
 }

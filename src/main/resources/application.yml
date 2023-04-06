@@ -4,62 +4,52 @@ server:
     context-path: /courseproj/server
     encoding:
       charset: utf-8
-#配置mysql数据库
 spring:
-  datasource:
+  datasource: #配置mysql数据库
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/onlinecourse?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8
     type: com.alibaba.druid.pool.DruidDataSource
-    #ali数据池
-    druid:
-      # 初始化大小
-      initialSize: 5
-      #最小值
-      minIdle: 5
-      #最大值
-      maxActive: 20
-      #最大等待时间，配置获取连接等待超时，时间单位都是毫秒ms
-      maxWait: 60000
-      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接
-      timeBetweenEvictionRunsMillis: 60000
-      #配置一个连接在池中最小生存的时间
-      minEvictableIdleTimeMillis: 300000
-      #springboot监控
+    druid: #ali数据池
+      initialSize: 5 # 初始化大小
+      minIdle: 5 #最小值
+      maxActive: 20 #最大值
+      maxWait: 60000 #最大等待时间，配置获取连接等待超时，时间单位都是毫秒ms
+      timeBetweenEvictionRunsMillis: 60000 #配置间隔多久才进行一次检测，检测需要关闭的空闲连接
+      minEvictableIdleTimeMillis: 300000 #配置一个连接在池中最小生存的时间
+      fliters: stat #springboot druid 监控
       aop-patterns: com.xhu.onlinecourse.*
       stat-view-servlet: #监控页配置
         enabled: true
+        allow: 127.0.0.1
         login-username: admin
         login-password: admin
         resetEnable: false
-# 设置文件上传大小
   servlet:
-    multipart:
+    multipart: #设置文件上传大小
       max-request-size: 512MB
       max-file-size: 512MB
-
+  mvc: #加上swagger不会报错
+    pathmatch:
+      matching-strategy: ant_path_matcher
 mybatis:
-  #mapper.xml存放路径（resource）
-  mapper-locations: classpath:mapper/*.xml
+  mapper-locations: classpath:mapper/*.xml #mapper.xml存放路径（resource）
   type-aliases-package: com.xhu.onlinecourse.entity
-
   configuration:
-    #输出日志
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #输出日志
     mapUnderscoreToCamelCase: true
     map-underscore-to-camel-case: true
-#打印日志
-logging:
+logging: #打印日志
   level:
     root: info
     com.xhu.onlinecourse: debug
   file:
     name: logs/log.log
-
-#分页插件
-pagehelper:
+pagehelper: #分页插件
   helper-dialect: mysql
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+
+
