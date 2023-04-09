@@ -38,19 +38,20 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml #mapper.xml存放路径（resource）
   type-aliases-package: com.xhu.onlinecourse.entity
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #输出日志
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl #输出日志
     mapUnderscoreToCamelCase: true
     map-underscore-to-camel-case: true
-logging: #打印日志
-  level:
-    root: info
-    com.xhu.onlinecourse: debug
-  file:
-    name: logs/log.log
+#logging: #打印日志
+#  level:
+#    root: info
+#    com.xhu.onlinecourse: debug
+#  file:
+#    name: logs/log.log
 pagehelper: #分页插件
   helper-dialect: mysql
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
-
+logging:
+  config: classpath:logback-spring.xml
 
