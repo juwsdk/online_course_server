@@ -14,9 +14,9 @@ public class AdmServiceImpl implements AdmService{
     @Autowired
     private AdmMapper admMapper;
     @Override
-    public PageInfo<Adm> admList(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
-        List<Adm> admList = admMapper.getAdmList();
+    public PageInfo<Adm> admList(int pageNum, int pageSize, String columnName, String value) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Adm> admList = admMapper.getAdmList(columnName, value);
         return new PageInfo<>(admList);
     }
 

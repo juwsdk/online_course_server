@@ -5,5 +5,21 @@
 <mapper namespace="com.xhu.onlinecourse.mapper.AdmMapper">
     <select id="getAdmList" resultType="Adm">
         select * from `adm`
+        <where>
+            <choose>
+                <when test="columnName=='admId'">
+                    And adm_id like '%${value}%'
+                </when>
+                <when test="columnName=='admName'">
+                    And adm_name like '%${value}%'
+                </when>
+                <when test="columnName=='admAuthoritylevels'">
+                    And adm_authoritylevels like '%${value}%'
+                </when>
+                <otherwise>
+                    '1'='1'
+                </otherwise>
+            </choose>
+        </where>
     </select>
 </mapper>

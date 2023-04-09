@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "课程接口")
 @RestController
@@ -48,13 +49,20 @@ public class CourseController {
     @RequestMapping(method = RequestMethod.POST,value ="/courseList/{courseId}" )
     public Result<List<CourseRes>> stuCourseRouterList(@PathVariable Long courseId){
 
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),courseService.getCourseResList(courseId));
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), courseService.getCourseResList(courseId));
     }
+
     //返回前三的课程作为走马灯
     @ApiOperation(value = "查询学生选择最多的三门课")
-    @RequestMapping(method = RequestMethod.GET,value = "/courseTopList")
-    public Result<List<CourseTeacherVo>> getTopTreeCourseList(){
+    @RequestMapping(value = "/courseTopList", method = RequestMethod.GET)
+    public Result<List<CourseTeacherVo>> getTopTreeCourseList() {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), courseService.getTopThreeCourseList());
+    }
+
+    @ApiOperation(value = "根据学生Id发送课程总数与学生选课数")
+    @RequestMapping(value = "/{studentId}/countCourse")
+    public Result<Map<String, Object>> stduentCourseCount(@PathVariable Long studentId) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), courseService.stduentCourseCount(studentId));
     }
 
 }

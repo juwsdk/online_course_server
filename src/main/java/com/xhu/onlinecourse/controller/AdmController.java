@@ -26,7 +26,9 @@ public class AdmController {
     @ApiOperation(value = "查询所有管理员")
     @RequestMapping("/admList")
     public Result<PageInfo<Adm>> admList(@RequestParam(defaultValue = "1") int pageNum,
-                                        @RequestParam(defaultValue = "10") int pageSize){
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), admService.admList(pageNum,pageSize));
+                                         @RequestParam(defaultValue = "10") int pageSize,
+                                         @RequestParam(name = "fuzzyColumn", required = false) String columnName,
+                                         @RequestParam(name = "fuzzyValue", required = false) String value) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), admService.admList(pageNum, pageSize, columnName, value));
     }
 }

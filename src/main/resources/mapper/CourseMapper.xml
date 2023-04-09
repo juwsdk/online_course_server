@@ -52,6 +52,15 @@
         from course_res
         where course_id = #{courseId}
     </select>
+    <select id="countCourses" resultType="java.lang.Integer">
+        select count(*)
+        from course
+    </select>
+    <select id="countStudentCourses" resultType="java.lang.Integer">
+        select count(*)
+        from course_stu
+        where student_id = #{studentId}
+    </select>
 
 
 </mapper>

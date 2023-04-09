@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -19,9 +20,9 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherMapper teacherMapper;
 
     @Override
-    public PageInfo<Teacher> teacherList(int pageNum, int pageSize) {
+    public PageInfo<Teacher> teacherList(int pageNum, int pageSize, String columnName, String value) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Teacher> teacherList = teacherMapper.teacherList();
+        List<Teacher> teacherList = teacherMapper.teacherList(columnName, value);
         return new PageInfo<>(teacherList);
     }
 
@@ -41,14 +42,34 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Boolean addHomeWork(CourseHomework courseHomework) {
-        if (teacherMapper.addHomeWork(courseHomework)==1)
+        if (teacherMapper.addHomeWork(courseHomework) == 1)
             return true;
         return false;
     }
 
     @Override
-    public PageInfo<StudentCourseVo> studentCourseListByTeacherId(int pageNum,int pageSize,Long teacherId) {
-        PageHelper.startPage(pageNum,pageSize);
+    public List<CourseTeacherVo> teacherListById(Long teacherId) {
+        return teacherMapper.teacherListById(teacherId);
+    }
+
+    @Override
+    public int teacherCourseStudentSelectNum(Long teacherId) {
+        return teacherMapper.teacherCourseStudentSelectNum(teacherId);
+    }
+
+    @Override
+    public Teacher teacherOne(Long teacherId) {
+        return teacherMapper.teacherOne(teacherId);
+    }
+
+    @Override
+    public List<Map<String, Integer>> teacherTeachStudentCourseCount(Long teacherId) {
+        return teacherMapper.teacherTeachStudentCourseCount(teacherId);
+    }
+
+    @Override
+    public PageInfo<StudentCourseVo> studentCourseListByTeacherId(int pageNum, int pageSize, Long teacherId) {
+        PageHelper.startPage(pageNum, pageSize);
         List<StudentCourseVo> studentCourseVos = teacherMapper.studentCourseListByTeacherId(teacherId);
         return new PageInfo<>(studentCourseVos);
     }

@@ -30,6 +30,7 @@ mvnw.cmd
 /.nb-gradle/
 build/
 logs/
+test/
 
 ### VS Code ###
 .vscode/

@@ -32,7 +32,7 @@ public class CourseHomeWorkController {
     private static final String bathPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static";
 
     //发送给学生作业
-    @ApiOperation("通过课程号发送给学生作业信息")
+    @ApiOperation("通过课程号发送给[学生/自行查看]作业信息")
     @PostMapping("/{courseId}/getHomework")
     public Result<List<CourseHomework>> getHomework(@PathVariable Long courseId) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), homeWorkService.homeworkListByCourseId(courseId));
@@ -62,7 +62,8 @@ public class CourseHomeWorkController {
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + courseHomeworkRes);
         return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
     }
-//    @ApiOperation(value = "教师上传视频")
+
+    @ApiOperation(value = "教师上传视频")
     @PostMapping("/homeWorkUpload")
     public Result<String> homeWorkUpload(){
         String data="";

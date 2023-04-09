@@ -2,6 +2,7 @@ package com.xhu.onlinecourse;
 
 import com.xhu.onlinecourse.entity.CourseRes;
 import com.xhu.onlinecourse.mapper.CourseMapper;
+import com.xhu.onlinecourse.mapper.TeacherMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 public class ResTest {
     @Autowired
     CourseMapper courseMapper;
+
     @Test
     public void getRes() throws FileNotFoundException, UnsupportedEncodingException {
         String property = System.getProperty("user.dir");
@@ -41,4 +43,5 @@ public class ResTest {
             courseMapper.addNewCourseRes(courseRes);
         }
     }
+
 }

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public interface AdmService {
-    PageInfo<Adm> admList(int pageNum,int pageSize);
+    PageInfo<Adm> admList(int pageNum, int pageSize, String columnName, String value);
 
 }

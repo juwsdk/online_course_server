@@ -7,8 +7,11 @@ import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
 import com.xhu.onlinecourse.mapper.CourseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -42,5 +45,13 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseTeacherVo> getTopThreeCourseList() {
         return courseMapper.getTopThreeCourseList();
+    }
+
+    @Override
+    public Map<String, Object> stduentCourseCount(Long studentId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("countAll", courseMapper.countCourses());
+        map.put("studentCountAll", courseMapper.countStudentCourses(studentId));
+        return map;
     }
 }

@@ -18,7 +18,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class Swagger3Configuration {
     @Bean
     public Docket createRestApi(){
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))

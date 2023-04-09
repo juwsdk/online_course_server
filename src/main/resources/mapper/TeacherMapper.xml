@@ -5,12 +5,40 @@
 <mapper namespace="com.xhu.onlinecourse.mapper.TeacherMapper">
     <insert id="addHomeWork" parameterType="courseHomework">
         insert into course_homework
-        values (NULL,#{courseHomeworkName},#{courseId},#{courseHomeworkDate})
+        values (NULL, #{courseHomeworkName}, #{courseId}, #{courseHomeworkDate})
     </insert>
-
+    <!--模糊查询教师信息-->
     <select id="teacherList" resultType="com.xhu.onlinecourse.entity.Teacher">
         select *
         from teacher
+        <where>
+            <choose>
+                <when test="columnName=='teacherId'">
+                    And teacher_id like '%${value}%'
+                </when>
+                <when test="columnName=='teacherName'">
+                    And teacher_name like '%${value}%'
+                </when>
+                <when test="columnName=='teacherGender'">
+                    And teacher_gender like '%${value}%'
+                </when>
+                <when test="columnName=='teacherBirthday'">
+                    And teacher_birthday like '%${value}%'
+                </when>
+                <when test="columnName=='teacherPhonenum'">
+                    And teacher_phonenum like '%${value}%'
+                </when>
+                <when test="columnName=='teacherEmail'">
+                    And teacher_email like '%${value}%'
+                </when>
+                <when test="columnName=='teacherAddress'">
+                    And teacher_address like '%${value}%'
+                </when>
+                <otherwise>
+                    '1'='1'
+                </otherwise>
+            </choose>
+        </where>
     </select>
     <select id="teacherListById" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
         select course_id, course_name, t.teacher_id, course_info, teacher_name
@@ -29,12 +57,36 @@
           AND course.course_id = #{courseId}
     </select>
     <select id="studentCourseListByTeacherId" resultType="com.xhu.onlinecourse.entity.vo.StudentCourseVo">
-        select student.student_id,student_name,student_gender,student_email,course_name
+        select student.student_id, student_name, student_gender, student_email, course_name
         FROM student,
              course_stu,
              course
         WHERE student.`student_id` = course_stu.`student_id`
           AND course.`course_id` = course_stu.`course_id`
           AND teacher_id = #{teacherId}
+    </select>
+    <select id="teacherCourseStudentSelectNum" resultType="java.lang.Integer">
+        SELECT COUNT(cs.`course_id`) res
+        FROM course_stu cs
+                 JOIN course c ON cs.`course_id` = c.`course_id`
+                 JOIN teacher t ON c.`teacher_id` = t.`teacher_id`
+        WHERE t.`teacher_id` = #{teacherId};
+    </select>
+    <select id="teacherOne" resultType="com.xhu.onlinecourse.entity.Teacher">
+        select *
+        from teacher
+        where teacher_id = #{teacherId}
+    </select>
+    <!--查询教师教授的课程以及选课人数-->
+    <select id="teacherTeachStudentCourseCount" resultType="java.util.Map">
+        SELECT c.course_name         name,
+               COUNT(cs.`course_id`) res
+        FROM course c
+                 JOIN teacher t
+                      ON c.`teacher_id` = t.`teacher_id`
+                 LEFT JOIN course_stu cs
+                           ON cs.`course_id` = c.`course_id`
+        WHERE t.`teacher_id` = #{teacherId}
+        GROUP BY c.course_name
     </select>
 </mapper>

@@ -10,13 +10,21 @@ import java.util.List;
 
 @Mapper
 public interface CourseMapper {
-    List<CourseTeacherVo> getCourseList();
+    List<CourseTeacherVo> getCourseList();//获取所有课程
+
+    Integer countCourses();//获取课程总数
+
     CourseTeacherVo getCourseById(@Param("courseId") Long courseId);
+
     int courseInsert(Course course);
 
-    List<CourseTeacherVo> getStudentCourseList(@Param("studentId") Long studentId);
+    List<CourseTeacherVo> getStudentCourseList(@Param("studentId") Long studentId);//获取指定学生Id的课程列表
+
+    Integer countStudentCourses(@Param("studentId") Long studentId);//统计指定学生Id获取了多少课程数
+
     List<CourseRes> getCourseResList(@Param("courseId") Long courseId);
+
     int addNewCourseRes(CourseRes courseRes);
-    //选取选课榜前三，作为前端的走马灯
-    List<CourseTeacherVo> getTopThreeCourseList();
+
+    List<CourseTeacherVo> getTopThreeCourseList();//选取选课榜前三，作为前端的走马灯
 }
