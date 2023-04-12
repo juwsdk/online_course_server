@@ -2,10 +2,13 @@ package com.xhu.onlinecourse.service;
 
 import com.github.pagehelper.PageInfo;
 import com.xhu.onlinecourse.entity.CourseHomework;
+import com.xhu.onlinecourse.entity.CourseRes;
 import com.xhu.onlinecourse.entity.Student;
 import com.xhu.onlinecourse.entity.Teacher;
+import com.xhu.onlinecourse.entity.aboutfile.FileData;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
 import com.xhu.onlinecourse.entity.vo.StudentCourseVo;
+import org.apache.ibatis.annotations.Param;
 
 
 import java.util.List;
@@ -30,5 +33,7 @@ public interface TeacherService {
     Teacher teacherOne(Long teacherId);//查找一个教师的信息
 
     List<Map<String, Integer>> teacherTeachStudentCourseCount(Long teacherId);//查询教师教授的课程和选课人数
+
+    List<CourseRes> teacherResById(Long courseId);
 
 }

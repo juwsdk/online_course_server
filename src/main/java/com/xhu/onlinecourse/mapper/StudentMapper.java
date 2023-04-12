@@ -10,8 +10,10 @@ import java.util.Map;
 
 @Mapper
 public interface StudentMapper {
-//    List<Student> studentList();
-    List<Student> studentList(@Param("columnName") String name, @Param("value") String value);
-    int studentInsert(Student student);
-    int studentDelete(@Param("studentId") Long studentId);
+    //    List<Student> studentList();
+    List<Student> studentList(@Param("columnName") String name, @Param("value") String value);//查询所有学生
+
+    Integer studentInsert(Student student);//增加学生
+
+    Integer studentDelete(@Param("studentId") Long studentId);//删除学生
 }

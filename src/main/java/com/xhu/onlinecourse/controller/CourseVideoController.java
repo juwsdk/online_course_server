@@ -1,5 +1,6 @@
 package com.xhu.onlinecourse.controller;
 
+import com.xhu.onlinecourse.entity.CourseRes;
 import com.xhu.onlinecourse.entity.aboutfile.FileData;
 import com.xhu.onlinecourse.service.TeacherService;
 import com.xhu.onlinecourse.utils.Result;
@@ -17,6 +18,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Api(value = "视频资源接口")
 @RestController
@@ -40,14 +42,23 @@ public class CourseVideoController {
         headers.set("Content-Disposition", "attachment; filename=\"video.mp4\"");
         return new ResponseEntity<>(videoBytes, headers, HttpStatus.OK);
     }
+
     @ApiOperation(value = "教师上传视频")
-    @PostMapping("/upload")
-    public Result<String> handleFileUpload(@ModelAttribute FileData fileData//ModelAttribute可以接收前端formData后端用javabean接收
+    @PostMapping("/{courseId}/upload")
+    public Result<String> handleFileUpload(@PathVariable Long courseId,
+                                           @ModelAttribute FileData fileData//ModelAttribute可以接收前端formData后端用javabean接收
     ) {
 //        System.out.println(fileData.getFileRaw().getSize());
-        String name=fileData.getFileName().substring(0,fileData.getFileName().indexOf("."));
-        String data=name+"已经上传成功!";
+        String name = fileData.getResFileName().substring(0, fileData.getResFileName().indexOf("."));
+//        System.err.println(fileData);
+        String data = name + "已经上传成功!";
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), data);
+    }
+
+    @ApiOperation(value = "教师查看上传的资源列表")
+    @PostMapping("/{courseId}/showFileList")
+    public Result<List<CourseRes>> showFileList(@PathVariable Long courseId) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherResById(courseId));
     }
 
 

@@ -3,6 +3,7 @@ package com.xhu.onlinecourse.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xhu.onlinecourse.entity.CourseHomework;
+import com.xhu.onlinecourse.entity.CourseRes;
 import com.xhu.onlinecourse.entity.Student;
 import com.xhu.onlinecourse.entity.Teacher;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
@@ -65,6 +66,11 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public List<Map<String, Integer>> teacherTeachStudentCourseCount(Long teacherId) {
         return teacherMapper.teacherTeachStudentCourseCount(teacherId);
+    }
+
+    @Override
+    public List<CourseRes> teacherResById(Long courseId) {
+        return teacherMapper.teacherResById(courseId);
     }
 
     @Override

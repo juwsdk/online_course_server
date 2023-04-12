@@ -89,4 +89,10 @@
         WHERE t.`teacher_id` = #{teacherId}
         GROUP BY c.course_name
     </select>
+    <!--查询教师上传的文件列表-->
+    <select id="teacherResById" resultType="com.xhu.onlinecourse.entity.CourseRes">
+        SELECT *
+        from course_res
+        where course_id = #{courseId}
+    </select>
 </mapper>

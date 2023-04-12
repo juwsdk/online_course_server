@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseRes {
-    private Long courseResId;
-    private String resVideoName;
-    private String resFileName;
-    private Long courseId;
-    private Long resBlues;
+    protected Long courseResId;
+    protected String resVideoName;
+    protected String resFileName;
+    protected Long courseId;
+    protected Long resBlues;
 }

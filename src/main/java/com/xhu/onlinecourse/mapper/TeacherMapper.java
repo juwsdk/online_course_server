@@ -1,9 +1,6 @@
 package com.xhu.onlinecourse.mapper;
 
-import com.xhu.onlinecourse.entity.Course;
-import com.xhu.onlinecourse.entity.CourseHomework;
-import com.xhu.onlinecourse.entity.Student;
-import com.xhu.onlinecourse.entity.Teacher;
+import com.xhu.onlinecourse.entity.*;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
 import com.xhu.onlinecourse.entity.vo.StudentCourseVo;
 import org.apache.ibatis.annotations.MapKey;
@@ -39,4 +36,7 @@ public interface TeacherMapper {
     //查询教师教授的课程以及选课人数
     @MapKey("name")
     List<Map<String, Integer>> teacherTeachStudentCourseCount(@Param("teacherId") Long teacherId);
+
+    //查询教师上传的文件列表
+    List<CourseRes> teacherResById(@Param("courseId") Long courseId);
 }

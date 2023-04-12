@@ -13,8 +13,8 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseAttendance {
-    private Long courseAttId;
-    private Long studentId;
-    private Long courseId;
-    private Date courseAttDate;
+    protected Long courseAttId;
+    protected Long studentId;
+    protected Long courseId;
+    protected Date courseAttDate;
 }

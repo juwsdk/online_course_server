@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhu.onlinecourse.mapper.CourseQuestionsMapper">
+    <insert id="studentAskQuestion">
+        insert into course_questions
+        <if test="parentQuestionId!=null and studentId!=null">
+            values (null,#{courseId},#{studentId},#{courseQuestionInfo},0,#{parentQuestionId})
+        </if>
+        <if test="parentQuestionId!=null and studentId==null">
+            values (null,#{courseId},null,#{courseQuestionInfo},1,#{parentQuestionId})
+        </if>
+        <if test="parentQuestionId==null">
+            values (null,#{courseId},null,#{courseQuestionInfo},0,0)
+        </if>
+    </insert>
+
+    <insert id="studentClockIn">
+        insert into course_attendance
+        values (null, #{studentId}, #{courseId}, #{courseAttDate})
+    </insert>
+
+    <select id="getCourseQuestionList" resultType="com.xhu.onlinecourse.entity.CourseQuestions">
+        select *
+        from course_questions
+        where course_id = #{courseId}
+          and parent_question_id = 0
+    </select>
+    <select id="getCourseQuestionChildList" resultType="com.xhu.onlinecourse.entity.CourseQuestions">
+        select *
+        from course_questions
+        where parent_question_id = #{parentQuestionId}
+    </select>
+    <select id="studentIsClock" resultType="com.xhu.onlinecourse.entity.CourseAttendance">
+        select *
+        from course_attendance
+        where student_id = #{studentId}
+          and course_att_date = #{courseAttDate}
+    </select>
+    <select id="allStudentIsClock" resultType="com.xhu.onlinecourse.entity.vo.CourseAttendanceVo">
+        select course_att_id,c.student_id,student_name,course_id,course_att_date
+        from course_attendance c,student s
+        where course_id=#{courseId} and s.student_id=c.student_id
+        <choose>
+            <when test="columnName=='studentId'">
+                And s.student_id like '%${value}%'
+            </when>
+            <when test="columnName=='studentName'">
+                And student_name like '%${value}%'
+            </when>
+            <when test="columnName=='courseAttDate'">
+                And course_att_date like '%${value}%'
+            </when>
+        </choose>
+        group by course_att_date
+    </select>
+</mapper>
