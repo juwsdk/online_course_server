@@ -3,10 +3,85 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xhu.onlinecourse.mapper.HomeworkMapper">
-
-
+    <!--学生提交作业-->
+    <insert id="studentSubmitHomework">
+        insert into course_homework_submit(course_homework_id, student_id, course_homework_submit_date,
+                                           course_homework_res)
+        values (#{courseHomeworkId}, #{studentId}, #{courseHomeworkSubmitDate}, #{courseHomeworkRes})
+    </insert>
+    <!--教师上传作业-->
+    <insert id="teacherUploadHomework">
+        insert into course_homework(course_homework_name, course_id, course_homework_date, course_homework_res,
+                                    course_homework_description)
+        values (#{courseHomeworkName}, #{courseId}, #{courseHomeworkDate}, #{courseHomeworkRes},
+                #{courseHomeworkDescription})
+    </insert>
+    <!--查询课程相关的作业-->
     <select id="homeworkListByCourseId" resultType="com.xhu.onlinecourse.entity.CourseHomework">
-        select * from course_homework
-        where course_id=#{courseId}
+        select *
+        from course_homework
+        where course_id = #{courseId}
     </select>
+    <!--学生上传的作业列表-->
+    <select id="homeworkSubmitByHomeworkId" resultType="java.util.Map">
+        select student.student_name studentName,
+               course_homework_submit_id,
+               course_homework_id,
+               course_homework_submit.student_id,
+               course_homework_submit_date
+        from student,
+             course_homework_submit
+        where student.student_id = course_homework_submit.student_id
+          and course_homework_id = #{courseHomeworkId}
+    </select>
+    <!--没有上传的学生列表-->
+    <select id="homeworkNotSubmitByHomeworkId" resultType="java.lang.String">
+        select student.student_name
+        from student,
+             course_homework,
+             course_homework_submit
+        where course_homework.course_homework_id = course_homework_submit.course_homework_id
+          and course_homework_submit.student_id = student.student_id
+          and course_homework.course_homework_id = #{courseHomeworkId}
+    </select>
+    <!--学生查看作业得分-->
+    <select id="studentShowScore" resultType="java.lang.Integer">
+        SELECT course_homework_score
+        FROM course_homework_score sc
+                 JOIN course_homework_submit cs ON sc.`course_homework_submit_id` = cs.`course_homework_submit_id`
+        WHERE cs.`course_homework_id` = #{courseHomeworkId}
+          and cs.`student_id` = #{studentId}
+    </select>
+    <!--查询这门课程学生的id和姓名完成人数-->
+    <select id="studentCountFinish" resultType="java.util.Map">
+        select student.student_id studentId, course_homework_res courseHomeworkRes
+        from student,
+             course_homework_submit
+        where student.student_id = course_homework_submit.student_id
+          and course_homework_id = #{courseHomeworkId}
+    </select>
+
+
+    <!--教师删除作业-->
+    <delete id="homeworkDelete">
+        delete
+        from course_homework
+        where course_homework_id = #{courseHomeworkId}
+    </delete>
+    <delete id="homeworkSubmitDelete">
+        delete
+        from course_homework_submit
+        where course_homework_id = #{courseHomeworkId}
+    </delete>
+    <delete id="homeworkScoreDelete">
+        delete
+        from course_homework_score
+        where course_homework_submit_id = (
+            select course_homework_submit_id
+            from course_homework_submit
+                     left join course_homework
+                               on course_homework_submit.course_homework_id = course_homework.course_homework_id
+            where course_homework.course_homework_id = #{courseHomeworkId}
+        )
+    </delete>
 </mapper>

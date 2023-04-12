@@ -9,15 +9,23 @@
         values (#{studentName}, #{studentPassword}, #{studentGender}, #{studentBirthday}, #{studentPhonenum},
                 #{studentEmail}, #{studentAddress});
     </insert>
+    <update id="studentUpdate" parameterType="Student">
+        update student
+        set student_name=#{studentName},
+            student_password = #{studentPassword},
+            student_gender = #{studentGender},
+            student_birthday=#{studentBirthday},
+            student_phonenum=#{studentPhonenum},
+            student_email=#{studentEmail},
+            student_address=#{studentAddress}
+        where student_id = #{studentId}
+    </update>
     <delete id="studentDelete">
-        delete from student
-        where student_id=#{studentId}
+        delete
+        from student
+        where student_id = #{studentId}
     </delete>
 
-    <!--    <select id="studentList" resultType="Student">-->
-<!--        select *-->
-<!--        from student-->
-<!--    </select>-->
     <select id="studentList" resultType="Student">
         select *
         from student

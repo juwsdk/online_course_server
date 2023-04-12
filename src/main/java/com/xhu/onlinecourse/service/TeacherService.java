@@ -11,29 +11,52 @@ import com.xhu.onlinecourse.entity.vo.StudentCourseVo;
 import org.apache.ibatis.annotations.Param;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public interface TeacherService {
-    //分页查询
+    //分页查询,查询教师信息
     PageInfo<Teacher> teacherList(int pageNum, int pageSize, String columnName, String value);
 
-    PageInfo<CourseTeacherVo> teacherListById(int pageNum, int pageSize, Long teacherId);//查询教师教授的所有课程
+    //查询教师教授的所有课程,分页查询
+    PageInfo<CourseTeacherVo> teacherListById(int pageNum, int pageSize, Long teacherId);
 
+    //只查询教师教授的课程,不分页查询
+    List<CourseTeacherVo> teacherListById(Long teacherId);
+
+    //查找一个教师的信息
+    Teacher teacherOne(Long teacherId);
+
+    //查询教师教授的学生信息
     PageInfo<Student> studentListByTeacherCourseId(Long teacherId, Long courseId, int pageNum, int pageSize);
 
+    //查询教师所有开课所有学生选择的信息
     PageInfo<StudentCourseVo> studentCourseListByTeacherId(int pageNum, int pageSize, Long teacherId);
 
-    Boolean addHomeWork(CourseHomework courseHomework);
+    //教师布置作业,向作业表插入数据
+    Integer addHomeWork(CourseHomework courseHomework);
 
-    List<CourseTeacherVo> teacherListById(Long teacherId);//只查询教师教授的课程,不分页查询
+    //查询有多少学生选了这个教师的课
+    Integer teacherCourseStudentSelectNum(Long teacherId);
 
-    int teacherCourseStudentSelectNum(Long teacherId);//查询有多少学生选了这个教师的课
+    //查询教师教授的课程和选课人数
+    List<Map<String, Integer>> teacherTeachStudentCourseCount(Long teacherId);
 
-    Teacher teacherOne(Long teacherId);//查找一个教师的信息
-
-    List<Map<String, Integer>> teacherTeachStudentCourseCount(Long teacherId);//查询教师教授的课程和选课人数
-
+    /* 教师资源管理 */
+    //查询教师上传的文件列表
     List<CourseRes> teacherResById(Long courseId);
+
+    //将前端上传的文件写入数据库并创建相应的文件
+    Integer teacherAddRes(FileData courseRes, String bathPath) throws IOException;
+
+    //修改教师的课程资源
+    Integer teacherResAlter(CourseRes courseRes);
+
+    //删除一条课程资源
+    Integer teacherDeleteRes(Long courseResId);
+
+    //删除所有课程资源
+    Integer teacherDeleteAllRes(Long courseId);
 
 }

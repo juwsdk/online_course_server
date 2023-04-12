@@ -3,21 +3,23 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xhu.onlinecourse.mapper.CourseMapper">
+    <!--增加一门课程-->
     <insert id="courseInsert">
         insert into course
         values (null, #{teacherId}, #{courseName}, #{courseInfo}, #{courseImage})
     </insert>
+    <!--为课程增加课程资源-->
     <insert id="addNewCourseRes" parameterType="courseRes">
         insert into course_res(course_res_id, res_video_name, res_file_name, course_id, res_blues)
         values (null, #{resVideoName}, #{resFileName}, #{courseId}, #{resBlues})
     </insert>
-
+    <!--获取所有课程-->
     <select id="getCourseList" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
         select course_id, course.teacher_id, course_name, teacher_name
         from course
                  left join teacher on course.teacher_id = teacher.teacher_id
     </select>
-
+    <!--选取选课榜前三，作为前端的走马灯-->
     <select id="getTopThreeCourseList" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
         SELECT c.course_id, c.teacher_id, c.course_name, t.teacher_name
         FROM course c
@@ -30,14 +32,14 @@
             LIMIT 3
         ) tmp ON c.course_id = tmp.course_id;
     </select>
-
+    <!--通过课程id获取教师及课程相关信息-->
     <select id="getCourseById" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
         select course_name, t.teacher_id, course_info, teacher_name
         from course
                  left join teacher t on course.teacher_id = t.teacher_id
         where course_id = #{courseId}
     </select>
-
+    <!--获取指定学生Id的课程列表-->
     <select id="getStudentCourseList" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
         SELECT course.course_id, teacher.teacher_id, course_name, teacher_name
         FROM course,
@@ -47,15 +49,18 @@
           AND student_id = #{studentId}
           AND course_stu.`course_id` = course.`course_id`
     </select>
+    <!--根据课程id获取课程资源-->
     <select id="getCourseResList" resultType="com.xhu.onlinecourse.entity.CourseRes">
         select *
         from course_res
         where course_id = #{courseId}
     </select>
+    <!--获取课程总数-->
     <select id="countCourses" resultType="java.lang.Integer">
         select count(*)
         from course
     </select>
+    <!--统计指定学生Id获取了多少课程数-->
     <select id="countStudentCourses" resultType="java.lang.Integer">
         select count(*)
         from course_stu

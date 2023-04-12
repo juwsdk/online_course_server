@@ -1,6 +1,6 @@
 package com.xhu.onlinecourse.entity.aboutfile;
 
-import com.xhu.onlinecourse.entity.CourseRes;
+import com.xhu.onlinecourse.entity.CourseHomeworkSubmit;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,11 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FileData extends CourseRes {
-    /*private Long fileId;
-    private String fileName;*/
+public class HomeworkSubmitFileData extends CourseHomeworkSubmit {
     private MultipartFile fileRaw;
     private Long teacherId;
-    /*private Integer episode;
-    private String alias;*/
+    private Long courseId;
 }

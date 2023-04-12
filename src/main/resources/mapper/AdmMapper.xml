@@ -3,6 +3,26 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xhu.onlinecourse.mapper.AdmMapper">
+    <!--增加管理员-->
+    <insert id="admInsert">
+        insert into adm(adm_id, adm_name, adm_password, adm_authoritylevels)
+        values (null, #{admName}, #{admPassword}, #{admAuthoritylevels})
+    </insert>
+    <!--更新管理员信息-->
+    <update id="admUpdate">
+        update adm
+        set adm_name=#{admName},
+            adm_password=#{admPassword},
+            adm_authoritylevels=#{admAuthoritylevels}
+        where adm_id = #{admId}
+    </update>
+    <!--删除管理员-->
+    <delete id="admDelete">
+        delete
+        from adm
+        where adm_id = #{admId}
+    </delete>
+    <!--查询管理员-->
     <select id="getAdmList" resultType="Adm">
         select * from `adm`
         <where>

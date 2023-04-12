@@ -1,8 +1,10 @@
 package com.xhu.onlinecourse.controller;
 
 import com.xhu.onlinecourse.entity.CourseHomework;
+import com.xhu.onlinecourse.entity.aboutfile.HomeworkFileData;
+import com.xhu.onlinecourse.entity.aboutfile.HomeworkSubmitFileData;
 import com.xhu.onlinecourse.service.HomeWorkService;
-import com.xhu.onlinecourse.utils.FileTypeUtil;
+import com.xhu.onlinecourse.utils.FileUtil;
 import com.xhu.onlinecourse.utils.Result;
 import com.xhu.onlinecourse.utils.ResultCode;
 import io.swagger.annotations.Api;
@@ -12,15 +14,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "课程作业接口")
 @RestController
@@ -39,35 +40,43 @@ public class CourseHomeWorkController {
     }
 
     //下载作业附件
-    @ApiOperation(value = "下载作业附件")
+    @ApiOperation(value = "学生下载作业附件")
     @PostMapping("/downLoad/{teacherId}/{courseId}/{courseHomeworkRes}")
     public ResponseEntity<byte[]> getHomeWorkRes(@PathVariable String teacherId,
                                                  @PathVariable String courseId,
                                                  @PathVariable String courseHomeworkRes) throws IOException {
         String path = String.format("%s/%s/%s/%s/%s/%s", bathPath, teacherId, courseId, "homework", "homeworkDistribute", courseHomeworkRes);
-        //获得是什么类型的文件
-        String fileType = FileTypeUtil.detectFileType(path);//得到了 .docx
-        System.out.println(path);
-        Path filePath = Paths.get(path);
-        byte[] fileBytes = Files.readAllBytes(filePath);
-        System.out.println(fileBytes.length);
-        //设置请求头
-        HttpHeaders headers = new HttpHeaders();
-        //请求类型
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);//这两句一样
-        // headers.setHeader("content-type", "application/octet-stream;charset=UTF-8");
-        //发送的长度
-        headers.setContentLength(fileBytes.length);
-        //发送的文件类型
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + courseHomeworkRes);
-        return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
+        return FileUtil.sendFileBytes(path, courseHomeworkRes);
     }
 
-    @ApiOperation(value = "教师上传视频")
+    @ApiOperation(value = "教师上传作业")
     @PostMapping("/homeWorkUpload")
-    public Result<String> homeWorkUpload(){
-        String data="";
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),data );
+    public Result<Integer> homeWorkUpload(@ModelAttribute HomeworkFileData homeWorkFileData) throws IOException {
+
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), homeWorkService.teacherUploadHomework(homeWorkFileData, bathPath));
+    }
+
+    @ApiOperation(value = "学生上传完成的作业")
+    @PostMapping("/homeWorkFinishedUpload")
+    public Result<Integer> homeWorkFinishedUpload(@ModelAttribute HomeworkSubmitFileData homeWorkFileData) throws IOException {
+
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), homeWorkService.studentSubmitHomework(homeWorkFileData, bathPath));
+    }
+
+    @ApiOperation(value = "完成作业的学生学号和姓名列表")
+    @PostMapping("/{courseHomeworkId}/count")
+    public Result<List<Map<String, String>>> studentCountFinish(@PathVariable Long courseHomeworkId) {
+
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), homeWorkService.studentCountFinish(courseHomeworkId));
+    }
+
+    @ApiOperation(value = "教师下载学生提交的作业附件")
+    @PostMapping("/downLoadStudentRes/{teacherId}/{courseId}/{courseHomeworkRes}")
+    public ResponseEntity<byte[]> getStudentHomeWorkRes(@PathVariable String teacherId,
+                                                        @PathVariable String courseId,
+                                                        @PathVariable String courseHomeworkRes) throws IOException {
+        String path = String.format("%s/%s/%s/%s/%s/%s", bathPath, teacherId, courseId, "homework", "homeworkSubmit", courseHomeworkRes);
+        return FileUtil.sendFileBytes(path, courseHomeworkRes);
     }
 
 }

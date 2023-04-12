@@ -3,10 +3,53 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xhu.onlinecourse.mapper.TeacherMapper">
+    <!--教师布置作业，写入数据库-->
     <insert id="addHomeWork" parameterType="courseHomework">
         insert into course_homework
         values (NULL, #{courseHomeworkName}, #{courseId}, #{courseHomeworkDate})
     </insert>
+    <!--添加教师-->
+    <insert id="teacherInsert" parameterType="Teacher">
+        insert into teacher(teacher_name, teacher_password, teacher_gender, teacher_birthday, teacher_phonenum,
+                            teacher_email, teacher_address)
+        values (#{teacherName}, #{teacherPassword}, #{teacherGender}, #{teacherBirthday}, #{teacherPhonenum},
+                #{teacherEmail}, #{teacherAddress})
+    </insert>
+    <!--将上传的课程视频信息写入数据库-->
+    <insert id="teacherAddRes">
+        insert into course_res(res_video_name, res_file_name, course_id, res_blues)
+        values (#{resVideoName}, #{resFileName}, #{courseId}, #{resBlues})
+    </insert>
+    <!--修改课程资源-->
+    <update id="teacherResAlter">
+        update course_res
+        set res_video_name=#{resVideoName},
+            res_blues=#{resBlues}
+        where course_res_id = #{courseResId}
+    </update>
+    <!--修改教师信息-->
+    <update id="teacherUpdate" parameterType="Teacher">
+        update teacher
+        set teacher_name=#{teacherName},
+            teacher_password=#{teacherPassword},
+            teacher_gender=#{teacherGender},
+            teacher_birthday=#{teacherBirthday},
+            teacher_phonenum=#{teacherPhonenum},
+            teacher_email=#{teacherEmail},
+            teacher_address=#{teacherAddress}
+    </update>
+    <!--删除一条课程资源-->
+    <delete id="teacherDeleteRes">
+        delete
+        from course_res
+        where course_res_id = #{courseResId}
+    </delete>
+    <!--删除所有课程资源-->
+    <delete id="teacherDeleteAllRes">
+        delete
+        from course_res
+        where course_id = #{courseId}
+    </delete>
     <!--模糊查询教师信息-->
     <select id="teacherList" resultType="com.xhu.onlinecourse.entity.Teacher">
         select *
@@ -40,12 +83,14 @@
             </choose>
         </where>
     </select>
+    <!--查询教师教授的所有课程-->
     <select id="teacherListById" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
         select course_id, course_name, t.teacher_id, course_info, teacher_name
         from course
                  left join teacher t on course.teacher_id = t.teacher_id
         where t.teacher_id = #{teacherId}
     </select>
+    <!--查询教师教授的学生信息-->
     <select id="studentListByTeacherCourseId" resultType="com.xhu.onlinecourse.entity.Student">
         SELECT student.student_id, student_name, student_gender, student_email
         FROM student,
@@ -56,6 +101,7 @@
           AND teacher_id = #{teacherId}
           AND course.course_id = #{courseId}
     </select>
+    <!--查询教师所有开课所有学生选择的信息-->
     <select id="studentCourseListByTeacherId" resultType="com.xhu.onlinecourse.entity.vo.StudentCourseVo">
         select student.student_id, student_name, student_gender, student_email, course_name
         FROM student,
@@ -65,6 +111,7 @@
           AND course.`course_id` = course_stu.`course_id`
           AND teacher_id = #{teacherId}
     </select>
+    <!--查询教师教授的课程一共有多少学生选-->
     <select id="teacherCourseStudentSelectNum" resultType="java.lang.Integer">
         SELECT COUNT(cs.`course_id`) res
         FROM course_stu cs
@@ -72,6 +119,7 @@
                  JOIN teacher t ON c.`teacher_id` = t.`teacher_id`
         WHERE t.`teacher_id` = #{teacherId};
     </select>
+    <!--查询一条教师的信息-->
     <select id="teacherOne" resultType="com.xhu.onlinecourse.entity.Teacher">
         select *
         from teacher
@@ -94,5 +142,12 @@
         SELECT *
         from course_res
         where course_id = #{courseId}
+        order by res_blues
+    </select>
+    <!--删除教师-->
+    <select id="teacherDelete" resultType="java.lang.Integer">
+        delete
+        from teacher
+        where teacher_id = #{teacherId}
     </select>
 </mapper>

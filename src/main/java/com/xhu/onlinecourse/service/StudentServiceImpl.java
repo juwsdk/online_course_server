@@ -14,14 +14,24 @@ public class StudentServiceImpl implements StudentService{
     private StudentMapper studentMapper;
     @Override
     public PageInfo<Student> studentList(int pageNum, int pageSize,String columnName,String value) {
-        PageHelper.startPage(pageNum,pageSize);
-        List<Student> studentList = studentMapper.studentList(columnName,value);
+        PageHelper.startPage(pageNum, pageSize);
+        List<Student> studentList = studentMapper.studentList(columnName, value);
         return new PageInfo<>(studentList);
     }
 
     @Override
-    public int studentInsert(Student student) {
+    public Integer studentInsert(Student student) {
         return studentMapper.studentInsert(student);
+    }
+
+    @Override
+    public Integer studentDelete(Long studentId) {
+        return studentMapper.studentDelete(studentId);
+    }
+
+    @Override
+    public Integer studentUpdate(Student student) {
+        return studentMapper.studentUpdate(student);
     }
 
 }

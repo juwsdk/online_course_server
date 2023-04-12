@@ -13,11 +13,11 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseHomework {
-    private Long courseHomeworkId;
-    private String courseHomeworkName;
-    private Long courseId;
-    private Date courseHomeworkDate;
-    private String courseHomeworkRes;
-    private String courseHomeworkDescription;
+    protected Long courseHomeworkId;
+    protected String courseHomeworkName;
+    protected Long courseId;
+    protected Date courseHomeworkDate;
+    protected String courseHomeworkRes;
+    protected String courseHomeworkDescription;
 
 }

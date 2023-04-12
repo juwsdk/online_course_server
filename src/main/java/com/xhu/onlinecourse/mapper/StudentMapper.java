@@ -4,9 +4,7 @@ package com.xhu.onlinecourse.mapper;
 import com.xhu.onlinecourse.entity.Student;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface StudentMapper {
@@ -16,4 +14,6 @@ public interface StudentMapper {
     Integer studentInsert(Student student);//增加学生
 
     Integer studentDelete(@Param("studentId") Long studentId);//删除学生
+
+    Integer studentUpdate(Student student);//修改学生
 }

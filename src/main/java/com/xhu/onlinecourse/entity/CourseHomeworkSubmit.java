@@ -13,8 +13,9 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseHomeworkSubmit {
-    private Long courseHomeworkSubmitId;
-    private Long courseHomeworkId;
-    private Long studentId;
-    private Date courseHomeworkSubmitDate;
+    protected Long courseHomeworkSubmitId;
+    protected Long courseHomeworkId;
+    protected Long studentId;
+    protected Date courseHomeworkSubmitDate;
+    protected String courseHomeworkRes;
 }

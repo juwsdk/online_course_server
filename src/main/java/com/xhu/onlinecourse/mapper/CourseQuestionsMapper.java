@@ -25,4 +25,5 @@ public interface CourseQuestionsMapper {
     CourseAttendance studentIsClock(@Param("studentId") Long studentId, @Param("courseAttDate") Date courseAttDate);//查询该学生是否打卡
 
     List<CourseAttendanceVo> allStudentIsClock(@Param("courseId") Long courseId, @Param("columnName") String name, @Param("value") String value);//教师查询所有打卡信息
+
 }
