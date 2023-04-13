@@ -2,6 +2,7 @@ package com.xhu.onlinecourse.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.xhu.onlinecourse.entity.Student;
+import com.xhu.onlinecourse.entity.vo.StudentAttendanceVo;
 import com.xhu.onlinecourse.mapper.StudentMapper;
 import com.xhu.onlinecourse.service.StudentService;
 import com.xhu.onlinecourse.utils.Result;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "学生接口")
 @RestController
@@ -19,23 +21,41 @@ import java.util.List;
 public class StudentController {
     @Autowired
     private StudentService studentService;
-    @Autowired
-    private StudentMapper studentMapper;
+
     @ApiOperation(value = "查询所有学生")
     @RequestMapping("/studentList")
     public Result<PageInfo<Student>> studentList(@RequestParam(defaultValue = "1") int pageNum,
-                                       @RequestParam(defaultValue = "10") int pageSize,
-                                       @RequestParam(name = "fuzzyColumn", required = false) String columnName,
-                                       @RequestParam(name = "fuzzyValue", required = false) String value) {
+                                                 @RequestParam(defaultValue = "10") int pageSize,
+                                                 @RequestParam(name = "fuzzyColumn", required = false) String columnName,
+                                                 @RequestParam(name = "fuzzyValue", required = false) String value) {
         System.err.println(columnName);
         System.err.println(value);
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),
                 studentService.studentList(pageNum, pageSize, columnName, value));
     }
+
     @ApiOperation(value = "添加学生")
     @RequestMapping(value = "/studentInsert", method = RequestMethod.POST)
-    public Integer studentInsert(@RequestBody Student student) {
-        System.out.println(student);
-        return 1;
+    public Result<Integer> studentInsert(@RequestBody Student student) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), studentService.studentInsert(student));
     }
+
+    @ApiOperation(value = "统计学生作业完成情况的饼图请求的数据")
+    @RequestMapping(value = "/{studentId}/studentHomeworkCount", method = RequestMethod.GET)
+    public Result<Map<String, Integer>> studentHomeworkCount(@PathVariable Long studentId) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), studentService.studentHomeWork(studentId));
+    }
+
+    @ApiOperation(value = "统计学生提问情况饼图的请求数据")//学生提出的问题和总的问题数
+    @RequestMapping(value = "/{studentId}/studentQuestionsNum", method = RequestMethod.GET)
+    public Result<Map<String, Integer>> studentQuestionsNum(@PathVariable Long studentId) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), studentService.studentQuestionsNum(studentId));
+    }
+
+    @ApiOperation(value = "学生最近三周的打卡情况折线图")
+    @RequestMapping(value = "/{studentId}/studentAttendance", method = RequestMethod.GET)
+    public Result<StudentAttendanceVo> studentAttendance(@PathVariable Long studentId) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), studentService.studentAttendance(studentId));
+    }
+
 }

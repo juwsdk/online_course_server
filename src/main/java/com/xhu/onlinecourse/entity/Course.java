@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Course {
-    private Long courseId;
-    private Long teacherId;
-    private String courseName;
-    private String courseInfo;
-    private String courseImage;
+    protected Long courseId;
+    protected Long teacherId;
+    protected String courseName;
+    protected String courseInfo;
+    protected String courseImage;
 }

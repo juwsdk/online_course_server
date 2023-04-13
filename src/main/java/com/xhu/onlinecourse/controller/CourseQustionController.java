@@ -34,11 +34,9 @@ public class CourseQustionController {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), courseQuestionsService.getCourseQuestionChildList(parentQuestionId));
     }
 
-    @ApiOperation(value = "插入一条问题/针对问题回答问题")
+    @ApiOperation(value = "插入一条问题/针对问题回答问题(动态sql)")
     @RequestMapping(value = "/addQues", method = RequestMethod.PUT)
     public Result<Integer> addQuestion(@RequestBody CourseQuestions courseQuestions) {
-//        courseQuestionsService.studentAskQuestion(courseQuestions)
-//        System.out.println(courseQuestions);
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), courseQuestionsService.studentAskQuestion(courseQuestions));
     }
 

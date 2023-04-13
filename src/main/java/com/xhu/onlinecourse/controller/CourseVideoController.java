@@ -52,22 +52,25 @@ public class CourseVideoController {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherResById(courseId));
     }
 
-    @ApiOperation(value = "教师查看修改资源")
-    @PostMapping("/alterFile")
-    public Result<Integer> fileAlter(CourseRes courseRes) {
+    @ApiOperation(value = "教师修改一根课程资源")
+    @PutMapping("/fileUpdate")
+    public Result<Integer> fileAlter(@RequestBody CourseRes courseRes) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherResAlter(courseRes));
     }
 
     @ApiOperation(value = "教师删课程的一个资源")
-    @PostMapping("/{courseResId}/fileDelete")
-    public Result<Integer> fileDelete(@PathVariable Long courseResId) {
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherDeleteRes(courseResId));
+    @DeleteMapping("/{teacherId}/fileDelete")
+    public Result<Integer> fileDelete(@PathVariable Long teacherId,
+                                      @RequestBody CourseRes courseRes) {
+        System.err.println(courseRes);
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherDeleteRes(courseRes, teacherId, bathPath));
     }
 
     @ApiOperation(value = "教师删除这个课程的所有资源")
-    @PostMapping("/{courseId}/filesDelete")
-    public Result<Integer> fileListDelte(@PathVariable Long courseId) {
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherDeleteAllRes(courseId));
+    @DeleteMapping("/{teacherId}/{courseId}/filesDelete")
+    public Result<Integer> fileListDelte(@PathVariable Long courseId,
+                                         @PathVariable Long teacherId) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherDeleteAllRes(courseId, teacherId, bathPath));
     }
 
 

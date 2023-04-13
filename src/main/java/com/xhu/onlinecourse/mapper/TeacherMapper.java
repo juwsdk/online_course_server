@@ -30,6 +30,12 @@ public interface TeacherMapper {
     //查询教师教授的所有课程
     List<CourseTeacherVo> teacherListById(@Param("teacherId") Long teacherId);
 
+    //教师增加一门课程
+    Integer courseInsert(Course course);
+
+    //查询教师的课程id
+    Long getCourseId(Course course);
+
     //查询教师教授的学生信息
     List<Student> studentListByTeacherCourseId(@Param("teacherId") Long teacherId, @Param("courseId") Long courseId);
 
@@ -52,10 +58,10 @@ public interface TeacherMapper {
     //将上传的课程视频信息写入数据库
     Integer teacherAddRes(CourseRes courseRes);
 
-    //修改教师的课程
+    //修改教师的课程的课程资源
     Integer teacherResAlter(CourseRes courseRes);
 
-    //删除一条课程
+    //删除一条课程资源
     Integer teacherDeleteRes(@Param("courseResId") Long courseResId);
 
     //删除所有课程

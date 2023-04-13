@@ -2,14 +2,13 @@ package com.xhu.onlinecourse.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.xhu.onlinecourse.entity.CourseHomework;
-import com.xhu.onlinecourse.entity.CourseRes;
-import com.xhu.onlinecourse.entity.Student;
-import com.xhu.onlinecourse.entity.Teacher;
+import com.xhu.onlinecourse.entity.*;
+import com.xhu.onlinecourse.entity.aboutfile.CourseFile;
 import com.xhu.onlinecourse.entity.aboutfile.FileData;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
 import com.xhu.onlinecourse.entity.vo.StudentCourseVo;
 import com.xhu.onlinecourse.mapper.TeacherMapper;
+import com.xhu.onlinecourse.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -61,9 +60,39 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherMapper.teacherCourseStudentSelectNum(teacherId);
     }
 
+
     @Override
     public Teacher teacherOne(Long teacherId) {
         return teacherMapper.teacherOne(teacherId);
+    }
+
+    @Transactional//开启事务
+    @Override//教师新增一门课程
+    public Integer courseInsert(CourseFile course, String bathPath) throws IOException {
+        if (teacherMapper.courseInsert(course) == 0) {//先写入数据库再查询课程id创建文件夹
+            return 0;
+        }
+        Long courseId = teacherMapper.getCourseId(course);
+        String coursesPath = String.format("%s/%s", bathPath, course.getTeacherId(), courseId);
+        File srcFloder = new File(coursesPath);
+        //不存在这个文件夹，则创建这个文件夹
+        if (!srcFloder.exists()) {
+            srcFloder.mkdirs();
+        }
+        //上传了图片资源
+        if (course.getFileRaw() != null) {
+            File saveFile = new File(srcFloder, course.getFileRaw().getOriginalFilename());
+            System.err.println(saveFile);
+            //将图片写入 /{teacherId}/{courseId} 文件夹下
+            course.getFileRaw().transferTo(saveFile);
+        }
+        String[] resFloder = {"/res", "/homework/homeworkDistribute", "/homework/homeworkSubmit"};
+        for (String s : resFloder) {
+            File floder = new File(coursesPath + s);
+            if (!floder.exists())
+                floder.mkdir();
+        }
+        return 1;//IO也没有异常，说明操作成功
     }
 
     @Override
@@ -97,22 +126,40 @@ public class TeacherServiceImpl implements TeacherService {
         return 0;
     }
 
-
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)//这个注解用作测试，不提交事务
-    @Override
+    @Override//修改课程资源的信息
     public Integer teacherResAlter(CourseRes courseRes) {
         return teacherMapper.teacherResAlter(courseRes);
     }
 
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    @Override
-    public Integer teacherDeleteRes(Long courseResId) {
-        return teacherMapper.teacherDeleteRes(courseResId);
+    @Transactional
+    @Override//删除一个课程资源
+    public Integer teacherDeleteRes(CourseRes courseRes, Long teacherId, String bathPath) {
+        String coursesPath = String.format("%s/%s/%s/res", bathPath, teacherId, courseRes.getCourseId());
+        File targetFile = new File(coursesPath, courseRes.getResFileName());
+        if (targetFile.exists()) {
+            targetFile.delete();
+        } else {
+            return 0;//没有这个文件，返回删除失败
+        }
+        //更新数据库
+        return teacherMapper.teacherDeleteRes(courseRes.getCourseId());
     }
 
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    @Transactional
     @Override
-    public Integer teacherDeleteAllRes(Long courseId) {
+    public Integer teacherDeleteAllRes(Long courseId, Long teacherId, String bathPath) {
+        String coursesPath = String.format("%s/%s/%s/res", bathPath, teacherId, courseId);
+        File targetfloder = new File(coursesPath);
+        if (targetfloder.exists()) {
+            //递归删除这个文件夹下的所有文件
+            FileUtil.deleteAllFiles(targetfloder);
+            //文件夹删除了则再创建一个
+            if (!targetfloder.exists())
+                targetfloder.mkdir();
+        } else {
+            return 0;//没有这个文件夹，返回删除失败
+        }
+        //更新数据库
         return teacherMapper.teacherDeleteAllRes(courseId);
     }
 

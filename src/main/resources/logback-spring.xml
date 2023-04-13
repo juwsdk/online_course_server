@@ -7,6 +7,7 @@
     <!--日志存放路径-->
     <property name="LOG_HOME" value="./logs"/>
     <property name="PROJECT_PREFIX" value="online_course"/>
+    <property name="LOG_LEVE" value="DEBUG"/>
     <!--输出到控制台-->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -30,7 +31,6 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
-
     <!--mybatis fileappender,追加到文件-->
     <appender name="mybatisFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_HOME}/${PROJECT_PREFIX}-mybatis.log</file>
@@ -48,19 +48,19 @@
         </filter>
     </appender>
     <!--springboot日志-->
-    <logger name="org.springframework" level="DEBUG" additivity="false">
+    <logger name="org.springframework" level="${LOG_LEVE}" additivity="false">
         <appender-ref ref="springFile"/>
         <appender-ref ref="stdout"/>
     </logger>
     <!--mybatis日志-->
-    <logger name="com.xhu.onlinecourse" level="DEBUG" additivity="false">
+    <logger name="com.xhu.onlinecourse" level="${LOG_LEVE}" additivity="false">
         <appender-ref ref="mybatisFile"/>
         <appender-ref ref="stdout"/>
     </logger>
     <!--状态监听，并输入到控制台-->
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
     <!--总的-->
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="springFile"/>
         <appender-ref ref="mybatisFile"/>
     </root>

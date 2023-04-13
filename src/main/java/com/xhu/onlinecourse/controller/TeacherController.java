@@ -3,6 +3,7 @@ package com.xhu.onlinecourse.controller;
 import com.github.pagehelper.PageInfo;
 import com.xhu.onlinecourse.entity.Student;
 import com.xhu.onlinecourse.entity.Teacher;
+import com.xhu.onlinecourse.entity.aboutfile.CourseFile;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
 import com.xhu.onlinecourse.entity.vo.StudentCourseVo;
 import com.xhu.onlinecourse.service.TeacherService;
@@ -13,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +24,8 @@ import java.util.Map;
 public class TeacherController {
     @Autowired
     private TeacherService teacherService;
+
+    private static final String bathPath = System.getProperty("user.dir") + "/src/main/resources/static";
 
     @ApiOperation(value = "查询所有教师信息")
     @RequestMapping("/teacherList")
@@ -81,6 +85,13 @@ public class TeacherController {
     @RequestMapping(path = "/{teacherId}/countCourseStudent", method = RequestMethod.POST)
     public Result<List<Map<String, Integer>>> teacherTeachStudentCourseCount(@PathVariable Long teacherId) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherTeachStudentCourseCount(teacherId));
+    }
+
+    @ApiOperation(value = "教师新增一门课程")
+    @RequestMapping(path = "/courseInsert", method = RequestMethod.POST)
+    public Result<Integer> teacherAddNewCourse(@ModelAttribute CourseFile courseFile) throws IOException {
+        System.err.println(courseFile);
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.courseInsert(courseFile, bathPath));
     }
 
 }

@@ -1,8 +1,11 @@
 package com.xhu.onlinecourse.service;
 
 import com.github.pagehelper.PageInfo;
+import com.xhu.onlinecourse.entity.CourseHomeworkScore;
 import com.xhu.onlinecourse.entity.CourseRes;
+import com.xhu.onlinecourse.entity.CourseStu;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -25,4 +28,10 @@ public interface CourseService {
 
     //发送学生选择的课程总数和选择的课程数
     Map<String, Object> stduentCourseCount(Long studentId);
+
+    //学生选择课程
+    Integer studentChooseCourse(Long courseId, Long studentId);
+
+    //学生是否选择了课程
+    Integer studentIsChooseCourse(Long courseId, Long studentId);
 }

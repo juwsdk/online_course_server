@@ -47,6 +47,23 @@ public class CourseController {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), courseService.getStudentCourseList(studentId, pageNum, pageSize));
     }
 
+    //查询学生是否选择了指定课程号的课程
+    @ApiOperation(value = "查询学生是否选择了指定课程号的课程")
+    @RequestMapping(method = RequestMethod.GET, value = "/courseChoose/{courseId}/{studentId}")
+    public Result<Integer> studentIsChooseCourse(@PathVariable Long courseId,
+                                                 @PathVariable Long studentId) {
+
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), courseService.studentIsChooseCourse(courseId, studentId));
+    }
+
+    //学生选择课程
+    @ApiOperation(value = "学生选择指定课程号的课程")
+    @RequestMapping(method = RequestMethod.PUT, value = "/courseChoose/{courseId}/{studentId}")
+    public Result<Integer> studentChooseCourse(@PathVariable Long courseId,
+                                               @PathVariable Long studentId) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), courseService.studentChooseCourse(courseId, studentId));
+    }
+
     //发送学生网课视频
     @ApiOperation(value = "根据课程号查询课程资源")
     @RequestMapping(method = RequestMethod.POST, value = "/courseList/{courseId}")

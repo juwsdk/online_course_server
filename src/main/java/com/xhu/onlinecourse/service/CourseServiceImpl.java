@@ -2,6 +2,7 @@ package com.xhu.onlinecourse.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.xhu.onlinecourse.entity.CourseHomeworkScore;
 import com.xhu.onlinecourse.entity.CourseRes;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
 import com.xhu.onlinecourse.mapper.CourseMapper;
@@ -59,5 +60,19 @@ public class CourseServiceImpl implements CourseService {
         map.put("countAll", courseMapper.countCourses());
         map.put("studentCountAll", courseMapper.countStudentCourses(studentId));
         return map;
+    }
+
+    //学生选择课程
+    @Override
+    public Integer studentChooseCourse(Long courseId, Long studentId) {
+        return courseMapper.studentChooseCourse(courseId, studentId);
+    }
+
+    //学生是否选择了课程
+    @Override
+    public Integer studentIsChooseCourse(Long courseId, Long studentId) {
+        if (courseMapper.studentIsChooseCourse(courseId, studentId) != null)
+            return 1;
+        return 0;
     }
 }

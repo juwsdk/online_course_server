@@ -1,10 +1,8 @@
 package com.xhu.onlinecourse.service;
 
 import com.github.pagehelper.PageInfo;
-import com.xhu.onlinecourse.entity.CourseHomework;
-import com.xhu.onlinecourse.entity.CourseRes;
-import com.xhu.onlinecourse.entity.Student;
-import com.xhu.onlinecourse.entity.Teacher;
+import com.xhu.onlinecourse.entity.*;
+import com.xhu.onlinecourse.entity.aboutfile.CourseFile;
 import com.xhu.onlinecourse.entity.aboutfile.FileData;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
 import com.xhu.onlinecourse.entity.vo.StudentCourseVo;
@@ -27,6 +25,9 @@ public interface TeacherService {
 
     //查找一个教师的信息
     Teacher teacherOne(Long teacherId);
+
+    //教师新增一门课程
+    Integer courseInsert(CourseFile course, String bathPath) throws IOException;
 
     //查询教师教授的学生信息
     PageInfo<Student> studentListByTeacherCourseId(Long teacherId, Long courseId, int pageNum, int pageSize);
@@ -54,9 +55,9 @@ public interface TeacherService {
     Integer teacherResAlter(CourseRes courseRes);
 
     //删除一条课程资源
-    Integer teacherDeleteRes(Long courseResId);
+    Integer teacherDeleteRes(CourseRes courseRes, Long teacherId, String bathPath);
 
     //删除所有课程资源
-    Integer teacherDeleteAllRes(Long courseId);
+    Integer teacherDeleteAllRes(Long coureseId, Long teacherId, String bathPath);
 
 }

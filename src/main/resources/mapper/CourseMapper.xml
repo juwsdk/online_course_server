@@ -3,15 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xhu.onlinecourse.mapper.CourseMapper">
-    <!--增加一门课程-->
-    <insert id="courseInsert">
-        insert into course
-        values (null, #{teacherId}, #{courseName}, #{courseInfo}, #{courseImage})
-    </insert>
+
     <!--为课程增加课程资源-->
     <insert id="addNewCourseRes" parameterType="courseRes">
         insert into course_res(course_res_id, res_video_name, res_file_name, course_id, res_blues)
         values (null, #{resVideoName}, #{resFileName}, #{courseId}, #{resBlues})
+    </insert>
+    <!--学生选课-->
+    <insert id="studentChooseCourse">
+        insert into course_stu(course_id, student_id)
+        values (#{courseId}, #{studentId})
     </insert>
     <!--获取所有课程-->
     <select id="getCourseList" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
@@ -65,6 +66,13 @@
         select count(*)
         from course_stu
         where student_id = #{studentId}
+    </select>
+    <!--查询学生是否选择了这门课-->
+    <select id="studentIsChooseCourse" resultType="com.xhu.onlinecourse.entity.CourseStu">
+        select *
+        from course_stu
+        where student_id = #{studentId}
+          and course_id = #{courseId}
     </select>
 
 

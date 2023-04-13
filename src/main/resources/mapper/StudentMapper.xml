@@ -59,5 +59,50 @@
         </where>
 
     </select>
+    <select id="studentHomeWorkIsFinished" resultType="java.lang.Integer">
+        select count(chs.student_id)
+        from course_homework_submit chs
+        where student_id = #{studentId}
+    </select>
+    <!--学生选修所有课程的作业-->
+    <select id="studentChooseAllHomeworks" resultType="java.lang.Integer">
+        select count(ch.course_id)
+        from course_homework ch
+                 join course_stu c on ch.course_id = c.course_id
+                 join student s on s.student_id = c.student_id
+        where s.student_id = #{studentId}
+    </select>
+    <!--学生提出的问题-->
+    <select id="studentAskQuestions" resultType="java.lang.Integer">
+        select count(cq.student_id)
+        from course_questions cq,
+             student s
+        where cq.student_id = s.student_id
+          and s.student_id = #{studentId}
+          and cq.course_question_type = 0
+    </select>
+    <!--总的问题数-->
+    <select id="allQuestions" resultType="java.lang.Integer">
+        select count(course_id)
+        from course_questions
+    </select>
+    <!--学生最近三周打卡情况-->
+    <select id="studentAttendance" resultType="com.xhu.onlinecourse.entity.vo.StudentAttendanceVo">
+        SELECT student_id,
+               SUM(CASE
+                       WHEN course_att_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 WEEK) AND CURDATE() THEN 1
+                       ELSE 0 END) thirdWeek,
+               SUM(CASE
+                       WHEN course_att_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 2 WEEK) AND DATE_SUB(CURDATE(), INTERVAL 1 WEEK)
+                           THEN 1
+                       ELSE 0 END) secondWeek,
+               SUM(CASE
+                       WHEN course_att_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 3 WEEK) AND DATE_SUB(CURDATE(), INTERVAL 2 WEEK)
+                           THEN 1
+                       ELSE 0 END) firstWeek
+        FROM course_attendance
+        WHERE student_id = #{studentId}
+        GROUP BY student_id
+    </select>
 
 </mapper>

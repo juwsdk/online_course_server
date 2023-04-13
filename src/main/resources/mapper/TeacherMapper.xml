@@ -20,6 +20,11 @@
         insert into course_res(res_video_name, res_file_name, course_id, res_blues)
         values (#{resVideoName}, #{resFileName}, #{courseId}, #{resBlues})
     </insert>
+    <!--教师增加一门课程-->
+    <insert id="courseInsert">
+        insert into course
+        values (null, #{teacherId}, #{courseName}, #{courseInfo}, #{courseImage})
+    </insert>
     <!--修改课程资源-->
     <update id="teacherResAlter">
         update course_res
@@ -149,5 +154,13 @@
         delete
         from teacher
         where teacher_id = #{teacherId}
+    </select>
+    <!--查询课程id-->
+    <select id="getCourseId" resultType="java.lang.Long">
+        select course_id
+        from course
+        where teacher_id = #{teacherId}
+          and course_name = #{courseName}
+          and course_info = #{courseInfo}
     </select>
 </mapper>

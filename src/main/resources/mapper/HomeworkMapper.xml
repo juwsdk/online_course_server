@@ -16,6 +16,11 @@
         values (#{courseHomeworkName}, #{courseId}, #{courseHomeworkDate}, #{courseHomeworkRes},
                 #{courseHomeworkDescription})
     </insert>
+    <!--教师给学生打分-->
+    <insert id="scoreToStudent">
+        insert into course_homework_score(course_homework_submit_id, course_homework_score)
+        values (#{courseHomeworkSubmitId}, #{courseHomeworkScore})
+    </insert>
     <!--查询课程相关的作业-->
     <select id="homeworkListByCourseId" resultType="com.xhu.onlinecourse.entity.CourseHomework">
         select *
@@ -24,11 +29,11 @@
     </select>
     <!--学生上传的作业列表-->
     <select id="homeworkSubmitByHomeworkId" resultType="java.util.Map">
-        select student.student_name studentName,
-               course_homework_submit_id,
-               course_homework_id,
-               course_homework_submit.student_id,
-               course_homework_submit_date
+        select student.student_name              studentName,
+               course_homework_submit_id         courseHomeworkSubmitId,
+               course_homework_id                courseHomeworkId,
+               course_homework_submit.student_id studentId,
+               course_homework_submit_date       courseHomeworkSubmitDate
         from student,
              course_homework_submit
         where student.student_id = course_homework_submit.student_id
@@ -36,13 +41,14 @@
     </select>
     <!--没有上传的学生列表-->
     <select id="homeworkNotSubmitByHomeworkId" resultType="java.lang.String">
-        select student.student_name
-        from student,
-             course_homework,
-             course_homework_submit
-        where course_homework.course_homework_id = course_homework_submit.course_homework_id
-          and course_homework_submit.student_id = student.student_id
-          and course_homework.course_homework_id = #{courseHomeworkId}
+        SELECT s.student_name
+        FROM student s
+                 INNER JOIN course_stu cs ON s.student_id = cs.student_id
+                 LEFT JOIN course_homework ch ON cs.course_id = ch.course_id
+                 LEFT JOIN course_homework_submit chs
+                           ON ch.course_homework_id = chs.course_homework_id AND s.student_id = chs.student_id
+        WHERE ch.course_homework_id = #{courseHomeworkId}
+          AND chs.course_homework_id IS NULL
     </select>
     <!--学生查看作业得分-->
     <select id="studentShowScore" resultType="java.lang.Integer">
@@ -60,8 +66,12 @@
         where student.student_id = course_homework_submit.student_id
           and course_homework_id = #{courseHomeworkId}
     </select>
-
-
+    <!--查看指定学生上传的作业-->
+    <select id="homeworkSubmitStudentOne" resultType="com.xhu.onlinecourse.entity.CourseHomeworkSubmit">
+        select *
+        from course_homework_submit
+        where course_homework_submit_id = #{courseHomeworkSubmitId}
+    </select>
     <!--教师删除作业-->
     <delete id="homeworkDelete">
         delete

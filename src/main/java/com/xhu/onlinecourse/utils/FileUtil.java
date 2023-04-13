@@ -1,15 +1,14 @@
 package com.xhu.onlinecourse.utils;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -60,8 +59,11 @@ public class FileUtil {
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         //发送的长度
         headers.setContentLength(fileBytes.length);
-        //发送的文件类型
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
+        //跨域需要设置这一项
+        headers.add("Access-Control-Expose-Headers ", "Content-Disposition");
+        // 设置 Content-Disposition 头字段
+        String encodeFileName = URLEncoder.encode(fileName, "utf-8");
+        headers.add("Content-Disposition", "attachment;filename*=UTF-8''" + encodeFileName);
         return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
     }
 }

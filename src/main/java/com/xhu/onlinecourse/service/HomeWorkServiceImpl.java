@@ -1,8 +1,11 @@
 package com.xhu.onlinecourse.service;
 
 import com.xhu.onlinecourse.entity.CourseHomework;
+import com.xhu.onlinecourse.entity.CourseHomeworkScore;
+import com.xhu.onlinecourse.entity.CourseHomeworkSubmit;
 import com.xhu.onlinecourse.entity.aboutfile.HomeworkFileData;
 import com.xhu.onlinecourse.entity.aboutfile.HomeworkSubmitFileData;
+import com.xhu.onlinecourse.entity.vo.CourseSubmitVo;
 import com.xhu.onlinecourse.mapper.HomeworkMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,5 +66,30 @@ public class HomeWorkServiceImpl implements HomeWorkService {
     @Override
     public List<Map<String, String>> studentCountFinish(Long courseHomeworkId) {
         return homeworkMapper.studentCountFinish(courseHomeworkId);
+    }
+
+    @Override//展示学生上传的作业列表
+    public List<Map<String, CourseHomeworkSubmit>> homeworkSubmitByHomeworkId(Long courseHomeworkId) {
+        return homeworkMapper.homeworkSubmitByHomeworkId(courseHomeworkId);
+    }
+
+    @Override//没有上传作业的学生名字
+    public List<String> homeworkNotSubmitByHomeworkId(Long courseHomeworkId) {
+        return homeworkMapper.homeworkNotSubmitByHomeworkId(courseHomeworkId);
+    }
+
+    @Override//学生上传的作业教师下载
+    public String homeworkSubmitStudentOne(CourseSubmitVo courseSubmitVo) {
+        return homeworkMapper.homeworkSubmitStudentOne(courseSubmitVo.getCourseHomeworkSubmitId()).getCourseHomeworkRes();
+    }
+
+    @Override//教师给学生打分
+    public Integer scoreToStudent(CourseHomeworkScore courseHomeworkScore) {
+        return homeworkMapper.scoreToStudent(courseHomeworkScore);
+    }
+
+    @Override//学生查看自己的得分
+    public Integer studentShowScore(Long courseHomeworkId, Long studentId) {
+        return homeworkMapper.studentShowScore(courseHomeworkId, studentId);
     }
 }

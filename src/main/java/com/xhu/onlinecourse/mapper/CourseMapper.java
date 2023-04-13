@@ -2,6 +2,8 @@ package com.xhu.onlinecourse.mapper;
 
 import com.xhu.onlinecourse.entity.Course;
 import com.xhu.onlinecourse.entity.CourseRes;
+import com.xhu.onlinecourse.entity.CourseStu;
+import com.xhu.onlinecourse.entity.Student;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,14 +15,11 @@ public interface CourseMapper {
     //获取所有课程
     List<CourseTeacherVo> getCourseList();
 
-    //获取课程总数
-    Integer countCourses();
-
     //通过课程id获取教师及课程相关信息
     CourseTeacherVo getCourseById(@Param("courseId") Long courseId);
 
-    //增加一门课程
-    int courseInsert(Course course);
+    //获取课程总数
+    Integer countCourses();
 
     //获取指定学生Id的课程列表
     List<CourseTeacherVo> getStudentCourseList(@Param("studentId") Long studentId);
@@ -36,4 +35,10 @@ public interface CourseMapper {
 
     //选取选课榜前三，作为前端的走马灯
     List<CourseTeacherVo> getTopThreeCourseList();
+
+    //学生选课
+    Integer studentChooseCourse(@Param("courseId") Long courseId, @Param("studentId") Long studentId);
+
+    //查询学生是否选择了这门课
+    CourseStu studentIsChooseCourse(@Param("courseId") Long courseId, @Param("studentId") Long studentId);
 }
