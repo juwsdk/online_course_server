@@ -36,6 +36,23 @@ public class TeacherController {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherList(pageNum, pageSize, columnName, value));
     }
 
+    @ApiOperation(value = "删除教师")
+    @RequestMapping(value = "/teacherDelete", method = RequestMethod.DELETE)
+    public Result<Integer> teacherDelete(@RequestBody Teacher teacher) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherDelete(teacher));
+    }
+
+    @ApiOperation(value = "修改教师")
+    @RequestMapping(value = "/teacherUpdate", method = RequestMethod.PUT)
+    public Result<Integer> teacherUpdate(@RequestBody Teacher teacher) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherUpdate(teacher));
+    }
+
+    @ApiOperation(value = "增加教师")
+    @RequestMapping(value = "/teacherInsert", method = RequestMethod.POST)
+    public Result<Integer> teacherInsert(@RequestBody Teacher teacher) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherInsert(teacher));
+    }
 
     @ApiOperation(value = "根据教师Id查询教师信息")
     @RequestMapping(path = "/{teacherId}/teacherOne", method = RequestMethod.POST)

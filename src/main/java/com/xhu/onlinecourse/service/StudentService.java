@@ -11,11 +11,13 @@ public interface StudentService {
     //查询学生
     PageInfo<Student> studentList(int pageNum, int pageSize, String columnName, String value);
 
+    Student studentById(Long studentId);
+
     //增加学生
     Integer studentInsert(Student student);
 
     //删除学生
-    Integer studentDelete(Long studentId);
+    Integer studentDelete(Student student);
 
     //修改学生
     Integer studentUpdate(Student student);

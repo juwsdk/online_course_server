@@ -23,6 +23,15 @@ public interface TeacherService {
     //只查询教师教授的课程,不分页查询
     List<CourseTeacherVo> teacherListById(Long teacherId);
 
+    //删除教师
+    Integer teacherDelete(Teacher teacher);
+
+    //修改教师信息
+    Integer teacherUpdate(Teacher teacher);
+
+    //添加教师
+    Integer teacherInsert(Teacher teacher);
+
     //查找一个教师的信息
     Teacher teacherOne(Long teacherId);
 

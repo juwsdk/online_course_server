@@ -20,7 +20,7 @@
             student_address=#{studentAddress}
         where student_id = #{studentId}
     </update>
-    <delete id="studentDelete">
+    <delete id="studentDelete" parameterType="Student">
         delete
         from student
         where student_id = #{studentId}
@@ -103,6 +103,12 @@
         FROM course_attendance
         WHERE student_id = #{studentId}
         GROUP BY student_id
+    </select>
+    <!--根据学生id查询学生-->
+    <select id="studentById" resultType="com.xhu.onlinecourse.entity.Student">
+        select *
+        from student
+        where student_id = #{studentId}
     </select>
 
 </mapper>

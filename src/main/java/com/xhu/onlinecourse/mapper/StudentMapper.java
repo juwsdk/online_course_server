@@ -14,11 +14,14 @@ public interface StudentMapper {
     //查询所有学生
     List<Student> studentList(@Param("columnName") String name, @Param("value") String value);
 
+    //根据id查询学生
+    Student studentById(@Param("studentId") Long studentId);
+
     //增加学生
     Integer studentInsert(Student student);
 
     //删除学生
-    Integer studentDelete(@Param("studentId") Long studentId);
+    Integer studentDelete(Student student);
 
     //修改学生
     Integer studentUpdate(Student student);

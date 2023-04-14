@@ -3,7 +3,6 @@ package com.xhu.onlinecourse.controller;
 import com.github.pagehelper.PageInfo;
 import com.xhu.onlinecourse.entity.Student;
 import com.xhu.onlinecourse.entity.vo.StudentAttendanceVo;
-import com.xhu.onlinecourse.mapper.StudentMapper;
 import com.xhu.onlinecourse.service.StudentService;
 import com.xhu.onlinecourse.utils.Result;
 import com.xhu.onlinecourse.utils.ResultCode;
@@ -11,8 +10,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.Map;
 
 @Api(value = "学生接口")
@@ -28,10 +25,14 @@ public class StudentController {
                                                  @RequestParam(defaultValue = "10") int pageSize,
                                                  @RequestParam(name = "fuzzyColumn", required = false) String columnName,
                                                  @RequestParam(name = "fuzzyValue", required = false) String value) {
-        System.err.println(columnName);
-        System.err.println(value);
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),
                 studentService.studentList(pageNum, pageSize, columnName, value));
+    }
+
+    @ApiOperation(value = "根据学生id查询学生")
+    @RequestMapping(value = "/{studentId}", method = RequestMethod.POST)
+    public Result<Student> studentById(@PathVariable Long studentId) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), studentService.studentById(studentId));
     }
 
     @ApiOperation(value = "添加学生")
@@ -39,6 +40,19 @@ public class StudentController {
     public Result<Integer> studentInsert(@RequestBody Student student) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), studentService.studentInsert(student));
     }
+
+    @ApiOperation(value = "修改学生")
+    @RequestMapping(value = "/studentUpdate", method = RequestMethod.PUT)
+    public Result<Integer> studentUpdate(@RequestBody Student student) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), studentService.studentUpdate(student));
+    }
+
+    @ApiOperation(value = "删除学生")
+    @RequestMapping(value = "/studentDelete", method = RequestMethod.DELETE)
+    public Result<Integer> studentDelete(@RequestBody Student student) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), studentService.studentDelete(student));
+    }
+
 
     @ApiOperation(value = "统计学生作业完成情况的饼图请求的数据")
     @RequestMapping(value = "/{studentId}/studentHomeworkCount", method = RequestMethod.GET)

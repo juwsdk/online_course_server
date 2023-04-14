@@ -16,7 +16,7 @@ public interface TeacherMapper {
     List<Teacher> teacherList(@Param("columnName") String name, @Param("value") String value);
 
     //删除教师
-    Integer teacherDelete(@Param("teacherId") Long teacherId);
+    Integer teacherDelete(Teacher teacher);
 
     //修改教师信息
     Integer teacherUpdate(Teacher teacher);

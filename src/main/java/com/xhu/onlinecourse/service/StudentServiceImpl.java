@@ -24,14 +24,19 @@ public class StudentServiceImpl implements StudentService {
         return new PageInfo<>(studentList);
     }
 
+    @Override//根据学生id查询学生信息
+    public Student studentById(Long studentId) {
+        return studentMapper.studentById(studentId);
+    }
+
     @Override
     public Integer studentInsert(Student student) {
         return studentMapper.studentInsert(student);
     }
 
     @Override
-    public Integer studentDelete(Long studentId) {
-        return studentMapper.studentDelete(studentId);
+    public Integer studentDelete(Student student) {
+        return studentMapper.studentDelete(student);
     }
 
     @Override

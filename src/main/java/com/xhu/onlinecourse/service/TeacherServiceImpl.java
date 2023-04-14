@@ -55,6 +55,21 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherMapper.teacherListById(teacherId);
     }
 
+    @Override//删除教师
+    public Integer teacherDelete(Teacher teacher) {
+        return teacherMapper.teacherDelete(teacher);
+    }
+
+    @Override//修改教师信息
+    public Integer teacherUpdate(Teacher teacher) {
+        return teacherMapper.teacherUpdate(teacher);
+    }
+
+    @Override//增加教师
+    public Integer teacherInsert(Teacher teacher) {
+        return teacherMapper.teacherInsert(teacher);
+    }
+
     @Override
     public Integer teacherCourseStudentSelectNum(Long teacherId) {
         return teacherMapper.teacherCourseStudentSelectNum(teacherId);

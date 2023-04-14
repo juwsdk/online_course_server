@@ -150,7 +150,7 @@
         order by res_blues
     </select>
     <!--删除教师-->
-    <select id="teacherDelete" resultType="java.lang.Integer">
+    <select id="teacherDelete" resultType="Teacher">
         delete
         from teacher
         where teacher_id = #{teacherId}

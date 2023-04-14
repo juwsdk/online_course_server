@@ -17,7 +17,7 @@
         where adm_id = #{admId}
     </update>
     <!--删除管理员-->
-    <delete id="admDelete">
+    <delete id="admDelete" parameterType="Adm">
         delete
         from adm
         where adm_id = #{admId}
@@ -41,5 +41,11 @@
                 </otherwise>
             </choose>
         </where>
+    </select>
+    <!--获得管理员信息-->
+    <select id="getAdmById" resultType="com.xhu.onlinecourse.entity.Adm">
+        select *
+        from adm
+        where adm_id = #{admId}
     </select>
 </mapper>

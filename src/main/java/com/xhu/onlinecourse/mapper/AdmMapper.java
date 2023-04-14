@@ -8,11 +8,18 @@ import java.util.List;
 
 @Mapper
 public interface AdmMapper {
-    List<Adm> getAdmList(@Param("columnName") String name, @Param("value") String value);//查询管理员
+    //查询管理员
+    List<Adm> getAdmList(@Param("columnName") String name, @Param("value") String value);
 
-    Integer admInsert(Adm adm);//增加管理员
+    //通过id获得管理员信息
+    Adm getAdmById(@Param("admId") Long admId);
 
-    Integer admDelete(@Param("admId") Long admId);//删除管理员
+    //增加管理员
+    Integer admInsert(Adm adm);
 
-    Integer admUpdate(Adm adm);//更新管理员信息
+    //删除管理员
+    Integer admDelete(Adm adm);
+
+    //更新管理员信息
+    Integer admUpdate(Adm adm);
 }
