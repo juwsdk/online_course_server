@@ -38,6 +38,12 @@ public interface TeacherService {
     //教师新增一门课程
     Integer courseInsert(CourseFile course, String bathPath) throws IOException;
 
+    //查询教师教授一门课程
+    Course getCourseInfoById(Long courseId);
+
+    //教师修改一门课程的课程信息
+    Integer courseUpdate(CourseFile course,String bathpath) throws IOException;
+
     //查询教师教授的学生信息
     PageInfo<Student> studentListByTeacherCourseId(Long teacherId, Long courseId, int pageNum, int pageSize);
 

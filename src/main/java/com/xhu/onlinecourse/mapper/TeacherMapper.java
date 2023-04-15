@@ -33,6 +33,12 @@ public interface TeacherMapper {
     //教师增加一门课程
     Integer courseInsert(Course course);
 
+    //通过课程id返回教师教授的课程的课程信息
+    Course getCourseInfoById(@Param("courseId") Long courseId);
+
+    //教师修改课程信息
+    Integer courseUpdate(Course course);
+
     //查询教师的课程id
     Long getCourseId(Course course);
 

@@ -110,6 +110,33 @@ public class TeacherServiceImpl implements TeacherService {
         return 1;//IO也没有异常，说明操作成功
     }
 
+    @Override//查询教师的一门课程
+    public Course getCourseInfoById(Long courseId) {
+        return teacherMapper.getCourseInfoById(courseId);
+    }
+
+    @Override//教师修改一门课程的课程信息
+    public Integer courseUpdate(CourseFile course,String bathPath) throws IOException {
+        if (teacherMapper.courseUpdate(course) == 0) {//先写入数据库再查询课程id创建文件夹
+            return 0;
+        }
+        Long courseId = teacherMapper.getCourseId(course);
+        String coursesPath = String.format("%s/%s/%s", bathPath, course.getTeacherId(), courseId);
+        File srcFloder = new File(coursesPath);
+        //不存在这个文件夹，则创建这个文件夹
+        if (!srcFloder.exists()) {
+            srcFloder.mkdirs();
+        }
+        //上传了图片资源
+        if (course.getFileRaw() != null) {
+            File saveFile = new File(srcFloder, course.getFileRaw().getOriginalFilename());
+            System.err.println(saveFile);
+            //将图片写入 /{teacherId}/{courseId} 文件夹下
+            course.getFileRaw().transferTo(saveFile);
+        }
+        return 1;//IO也没有异常，说明操作成功
+    }
+
     @Override
     public List<Map<String, Integer>> teacherTeachStudentCourseCount(Long teacherId) {
         return teacherMapper.teacherTeachStudentCourseCount(teacherId);

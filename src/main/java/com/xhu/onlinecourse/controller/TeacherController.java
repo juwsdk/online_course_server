@@ -1,19 +1,23 @@
 package com.xhu.onlinecourse.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.xhu.onlinecourse.entity.Course;
 import com.xhu.onlinecourse.entity.Student;
 import com.xhu.onlinecourse.entity.Teacher;
 import com.xhu.onlinecourse.entity.aboutfile.CourseFile;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
 import com.xhu.onlinecourse.entity.vo.StudentCourseVo;
 import com.xhu.onlinecourse.service.TeacherService;
+import com.xhu.onlinecourse.utils.FileUtil;
 import com.xhu.onlinecourse.utils.Result;
 import com.xhu.onlinecourse.utils.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -109,6 +113,29 @@ public class TeacherController {
     public Result<Integer> teacherAddNewCourse(@ModelAttribute CourseFile courseFile) throws IOException {
         System.err.println(courseFile);
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.courseInsert(courseFile, bathPath));
+    }
+
+    @ApiOperation(value = "教师修改课程")
+    @RequestMapping(path = "/courseUpdate", method = RequestMethod.POST)
+    public Result<Integer> teacherUpdateCourse(@ModelAttribute CourseFile courseFile) throws IOException {
+        System.err.println(courseFile);
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.courseUpdate(courseFile, bathPath));
+    }
+
+    @ApiOperation(value = "教师教授的课程信息")
+    @RequestMapping(path = "/{courseId}/courseShow", method = RequestMethod.GET)
+    public Result<Course> getCourseInfoById(@PathVariable Long courseId) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.getCourseInfoById(courseId));
+    }
+
+    @ApiOperation(value = "教师教授的课程信息中的图片")
+    @RequestMapping(path = "/courseShow", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getCourseInfoById(@PathParam("teacherId") Long teacherId,
+                                                    @PathParam("courseId") Long courseId,
+                                                    @PathParam("courseImage") String courseImage) throws IOException {
+        System.err.println(teacherId);
+        String targetPath=String.format("%s/%s/%s/%s",bathPath,teacherId,courseId,courseImage);
+        return FileUtil.sendFileBytes(targetPath,courseImage);
     }
 
 }

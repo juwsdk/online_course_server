@@ -33,7 +33,7 @@ public class ShiroConfig {
         //配置登出过滤器
         definition.addPathDefinition("/dataCommit/logout", "anon");
         //设置需要进行登录认证的拦截范围
-        definition.addPathDefinition("/**", "authc");
+//        definition.addPathDefinition("/**", "authc");
 
         return definition;
     }

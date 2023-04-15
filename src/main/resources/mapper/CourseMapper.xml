@@ -16,7 +16,7 @@
     </insert>
     <!--获取所有课程-->
     <select id="getCourseList" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
-        select course_id, course.teacher_id, course_name, teacher_name
+        select course_id, course.teacher_id, course_name, teacher_name,course_image
         from course
                  left join teacher on course.teacher_id = teacher.teacher_id
     </select>
@@ -35,7 +35,7 @@
     </select>
     <!--通过课程id获取教师及课程相关信息-->
     <select id="getCourseById" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
-        select course_name, t.teacher_id, course_info, teacher_name
+        select course_name, t.teacher_id, course_info, teacher_name,course_image,course.course_id
         from course
                  left join teacher t on course.teacher_id = t.teacher_id
         where course_id = #{courseId}
@@ -74,6 +74,7 @@
         where student_id = #{studentId}
           and course_id = #{courseId}
     </select>
+
 
 
 </mapper>
