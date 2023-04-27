@@ -1,4 +1,4 @@
-package com.xhu.onlinecourse.service;
+package com.xhu.onlinecourse.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -8,6 +8,7 @@ import com.xhu.onlinecourse.entity.CourseQuestions;
 import com.xhu.onlinecourse.entity.Student;
 import com.xhu.onlinecourse.entity.vo.CourseAttendanceVo;
 import com.xhu.onlinecourse.mapper.CourseQuestionsMapper;
+import com.xhu.onlinecourse.service.CourseQuestionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

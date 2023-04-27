@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+/*
+shrio的relam，进行授权和角色认证
+ */
 @Component
 public class MyRealm extends AuthorizingRealm {
 
@@ -21,8 +24,8 @@ public class MyRealm extends AuthorizingRealm {
 
     @Override//自定义授权方法
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String userId = (String)principalCollection.getPrimaryPrincipal();
-        String roleType= (String) SecurityUtils.getSubject().getSession().getAttribute("loginType");
+        String userId = (String) principalCollection.getPrimaryPrincipal();
+        String roleType = (String) SecurityUtils.getSubject().getSession().getAttribute("loginType");
         //添加角色
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.addRole(roleType);
@@ -33,16 +36,21 @@ public class MyRealm extends AuthorizingRealm {
     @Override//自定义登录认证方法
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         // 获取用户身份信息
-        UsernamePasswordTypeToken token =(UsernamePasswordTypeToken)authenticationToken;
+        UsernamePasswordTypeToken token = (UsernamePasswordTypeToken) authenticationToken;
         String userId = token.getUsername();
         String loginType = token.getLoginType();
         // 调用业务层获取用户信息（数据库中）
-        Map<Long, String> userMap = loginRegisterService.getUserInfo(Long.valueOf(userId), loginType);
-        //验证id
-        if (userMap.size()<0){
-            throw new UnknownAccountException();//不存在就抛出错误
+        Map<Long, String> userMap;
+        try {
+            userMap = loginRegisterService.getUserInfo(Long.valueOf(userId), loginType);
+        } catch (Exception e) {
+            throw new UnknownAccountException();//账户不存在
         }
+//        //验证id
+//        if (userMap.size() < 0) {
+//            throw new UnknownAccountException();//不存在就抛出错误
+//        }
         //验证密码
-        return new SimpleAuthenticationInfo(authenticationToken.getPrincipal(),userMap.get(Long.valueOf(userId)),authenticationToken.getPrincipal().toString());
+        return new SimpleAuthenticationInfo(authenticationToken.getPrincipal(), userMap.get(Long.valueOf(userId)), authenticationToken.getPrincipal().toString());
     }
 }

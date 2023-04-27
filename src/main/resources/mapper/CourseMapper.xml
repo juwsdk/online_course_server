@@ -42,7 +42,7 @@
     </select>
     <!--获取指定学生Id的课程列表-->
     <select id="getStudentCourseList" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
-        SELECT course.course_id, teacher.teacher_id, course_name, teacher_name
+        SELECT course.course_id, teacher.teacher_id, course_name, teacher_name,course_image
         FROM course,
              course_stu,
              teacher
@@ -55,6 +55,7 @@
         select *
         from course_res
         where course_id = #{courseId}
+        order by res_blues
     </select>
     <!--获取课程总数-->
     <select id="countCourses" resultType="java.lang.Integer">

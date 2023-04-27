@@ -1,7 +1,8 @@
 package com.xhu.onlinecourse.utils;
 
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.http.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -10,8 +11,14 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+/*
+工具类，处理文件的一些基本操作
+ */
 
 public class FileUtil {
+
+    public static final String bathPath = System.getProperty("user.dir") + "/src/main/resources/static";
+
     //获取文件类型
     public static String detectFileType(String filePath) {
         try {

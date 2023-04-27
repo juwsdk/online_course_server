@@ -33,7 +33,7 @@ public class CourseHomeWorkController {
     @Autowired
     private HomeWorkService homeWorkService;
 
-    private static final String bathPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static";
+//    private static final String bathPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static";
 
     //发送给学生作业
     @ApiOperation("通过课程号发送给[学生/自行查看]作业信息")
@@ -44,11 +44,13 @@ public class CourseHomeWorkController {
 
     //下载作业附件
     @ApiOperation(value = "学生下载作业附件")
-    @PostMapping("/downLoad/{teacherId}/{courseId}/{courseHomeworkRes}")
-    public ResponseEntity<byte[]> getHomeworkRes(@PathVariable String teacherId,
-                                                 @PathVariable String courseId,
-                                                 @PathVariable String courseHomeworkRes) throws IOException {
-        String path = String.format("%s/%s/%s/%s/%s/%s", bathPath, teacherId, courseId, "homework", "homeworkDistribute", courseHomeworkRes);
+    @GetMapping("/downLoad")
+    public ResponseEntity<byte[]> getHomeworkRes(@RequestParam String teacherId,
+                                                 @RequestParam String courseId,
+                                                 @RequestParam String courseHomeworkRes) throws IOException {
+        System.err.println(courseHomeworkRes);
+        String path = String.format("%s/%s/%s/%s/%s/%s", FileUtil.bathPath, teacherId, courseId, "homework", "homeworkDistribute", courseHomeworkRes);
+        System.out.println(path);
         return FileUtil.sendFileBytes(path, courseHomeworkRes);
     }
 
@@ -57,7 +59,7 @@ public class CourseHomeWorkController {
     @PostMapping("/downLoadStuSubmit")
     public ResponseEntity<byte[]> getHomeworkSubmitRes(@RequestBody CourseSubmitVo courseSubmitVo) throws IOException {
         String fileName = homeWorkService.homeworkSubmitStudentOne(courseSubmitVo);
-        String dirPath = String.format("%s/%s/%s/homework/homeworkSubmit/%s", bathPath, courseSubmitVo.getTeacherId(), courseSubmitVo.getCourseId(), fileName);
+        String dirPath = String.format("%s/%s/%s/homework/homeworkSubmit/%s", FileUtil.bathPath, courseSubmitVo.getTeacherId(), courseSubmitVo.getCourseId(), fileName);
         return FileUtil.sendFileBytes(dirPath, fileName);
     }
 
@@ -65,14 +67,14 @@ public class CourseHomeWorkController {
     @PostMapping("/homeWorkUpload")
     public Result<Integer> homeWorkUpload(@ModelAttribute HomeworkFileData homeWorkFileData) throws IOException {
 
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), homeWorkService.teacherUploadHomework(homeWorkFileData, bathPath));
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), homeWorkService.teacherUploadHomework(homeWorkFileData, FileUtil.bathPath));
     }
 
     @ApiOperation(value = "学生上传完成的作业")
     @PostMapping("/homeWorkFinishedUpload")
     public Result<Integer> homeWorkFinishedUpload(@ModelAttribute HomeworkSubmitFileData homeWorkFileData) throws IOException {
 
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), homeWorkService.studentSubmitHomework(homeWorkFileData, bathPath));
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), homeWorkService.studentSubmitHomework(homeWorkFileData, FileUtil.bathPath));
     }
 
     @ApiOperation(value = "完成作业的学生学号和姓名列表")
@@ -87,7 +89,7 @@ public class CourseHomeWorkController {
     public ResponseEntity<byte[]> getStudentHomeWorkRes(@PathVariable String teacherId,
                                                         @PathVariable String courseId,
                                                         @PathVariable String courseHomeworkRes) throws IOException {
-        String path = String.format("%s/%s/%s/%s/%s/%s", bathPath, teacherId, courseId, "homework", "homeworkSubmit", courseHomeworkRes);
+        String path = String.format("%s/%s/%s/%s/%s/%s", FileUtil.bathPath, teacherId, courseId, "homework", "homeworkSubmit", courseHomeworkRes);
         return FileUtil.sendFileBytes(path, courseHomeworkRes);
     }
 

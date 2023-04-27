@@ -48,7 +48,7 @@ public class StudentController {
     }
 
     @ApiOperation(value = "删除学生")
-    @RequestMapping(value = "/studentDelete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/studentDelete", method = RequestMethod.POST)
     public Result<Integer> studentDelete(@RequestBody Student student) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), studentService.studentDelete(student));
     }

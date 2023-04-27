@@ -16,4 +16,5 @@ public class CourseRes {
     protected String resFileName;
     protected Long courseId;
     protected Long resBlues;
+    protected String copyright;
 }

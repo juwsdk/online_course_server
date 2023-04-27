@@ -24,6 +24,9 @@ public interface TeacherMapper {
     //添加教师
     Integer teacherInsert(Teacher teacher);
 
+    //查询教师id
+    Long teacherNumber(Teacher teacher);
+
     //查询教师信息
     Teacher teacherOne(@Param("teacherId") Long teacherId);
 
@@ -72,4 +75,7 @@ public interface TeacherMapper {
 
     //删除所有课程
     Integer teacherDeleteAllRes(@Param("courseId") Long courseId);
+
+    //教师删除指定的学生
+    Integer studentRemove(@Param("courseId") Long courseId, @Param("studentId") Long studentId);
 }

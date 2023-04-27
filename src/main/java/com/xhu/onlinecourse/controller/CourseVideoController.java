@@ -26,14 +26,14 @@ import java.util.List;
 @RequestMapping("/video")
 public class CourseVideoController {
     @Autowired
-    TeacherService teacherService;
+    private TeacherService teacherService;
 
-    private static final String bathPath = System.getProperty("user.dir") + "/src/main/resources/static";
+//    private static final String bathPath = System.getProperty("user.dir") + "/src/main/resources/static";
 
     @ApiOperation(value = "获取指定的视频")
     @GetMapping("/getResource")
     public ResponseEntity<byte[]> getVideo(@RequestParam String srcUrl) throws IOException {
-        return FileUtil.sendFileBytes(bathPath + srcUrl, "video.mp4");
+        return FileUtil.sendFileBytes(FileUtil.bathPath + srcUrl, "video.mp4");
     }
 
     @ApiOperation(value = "教师上传视频")//ModelAttribute可以接收前端formData后端用javabean接收
@@ -43,7 +43,7 @@ public class CourseVideoController {
         //String name = fileData.getResFileName().substring(0, fileData.getResFileName().indexOf("."));
         //System.err.println(fileData);
         //String data = name + "已经上传成功!";
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherAddRes(fileData, bathPath));
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherAddRes(fileData, FileUtil.bathPath));
     }
 
     @ApiOperation(value = "教师查看上传的资源列表")
@@ -63,14 +63,14 @@ public class CourseVideoController {
     public Result<Integer> fileDelete(@PathVariable Long teacherId,
                                       @RequestBody CourseRes courseRes) {
         System.err.println(courseRes);
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherDeleteRes(courseRes, teacherId, bathPath));
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherDeleteRes(courseRes, teacherId, FileUtil.bathPath));
     }
 
     @ApiOperation(value = "教师删除这个课程的所有资源")
     @DeleteMapping("/{teacherId}/{courseId}/filesDelete")
-    public Result<Integer> fileListDelte(@PathVariable Long courseId,
+    public Result<Integer> fileListDelete(@PathVariable Long courseId,
                                          @PathVariable Long teacherId) {
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherDeleteAllRes(courseId, teacherId, bathPath));
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherDeleteAllRes(courseId, teacherId, FileUtil.bathPath));
     }
 
 

@@ -18,7 +18,7 @@ import java.util.List;
 @Api("问题提出和回复")
 @RestController
 @RequestMapping("/courseQuestions")
-public class CourseQustionController {
+public class CourseQuestionController {
     @Autowired
     private CourseQuestionsService courseQuestionsService;
 

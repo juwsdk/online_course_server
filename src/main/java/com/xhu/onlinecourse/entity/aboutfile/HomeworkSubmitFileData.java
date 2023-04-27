@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
-
+/*
+继承homeworkSubmit 获取前端学生提交的文件
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

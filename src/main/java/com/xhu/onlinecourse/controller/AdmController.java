@@ -2,20 +2,17 @@ package com.xhu.onlinecourse.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.xhu.onlinecourse.entity.Adm;
-import com.xhu.onlinecourse.service.AdmServiceImpl;
+import com.xhu.onlinecourse.service.impl.AdmServiceImpl;
 import com.xhu.onlinecourse.utils.Result;
 import com.xhu.onlinecourse.utils.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+//import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Api(value = "管理员接口")
-@RequiresRoles("admin")
+//@RequiresRoles("admin")
 @RestController
 @RequestMapping("/admin")
 public class AdmController {
@@ -44,7 +41,7 @@ public class AdmController {
     }
 
     @ApiOperation(value = "删除管理员")
-    @RequestMapping(value = "/admDelete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/admDelete", method = RequestMethod.POST)
     public Result<Integer> admDelete(@RequestBody Adm adm) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), admService.admDelete(adm));
     }
@@ -52,6 +49,7 @@ public class AdmController {
     @ApiOperation(value = "增加一个管理员")
     @RequestMapping(value = "/admInsert", method = RequestMethod.POST)
     public Result<Integer> admInsert(@RequestBody Adm adm) {
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), admService.admUpdate(adm));
+        System.err.println(adm);
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), admService.admInsert(adm));
     }
 }

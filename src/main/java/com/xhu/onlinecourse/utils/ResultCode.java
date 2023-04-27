@@ -2,7 +2,9 @@ package com.xhu.onlinecourse.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
+/*
+枚举类，配置code
+ */
 @AllArgsConstructor
 @Getter
 public enum ResultCode {
@@ -12,6 +14,7 @@ public enum ResultCode {
     NOT_FOUND(404, "请求资源不存在"),
     SERVER_ERROR(500, "服务器内部错误"),
     LOGIN_SUCCESS(1000, "登录成功"),
+    LOGIN_CHECK(1004, "已有用户信息"),
     USER_ERROR(1001, "用户名不存在"),
     PWD_ERROR(1002,"密码错误"),
     LOGOUT_SUCCESS(1003,"注销成功");

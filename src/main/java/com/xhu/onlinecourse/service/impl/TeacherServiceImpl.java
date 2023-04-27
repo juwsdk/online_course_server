@@ -1,4 +1,4 @@
-package com.xhu.onlinecourse.service;
+package com.xhu.onlinecourse.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -8,6 +8,7 @@ import com.xhu.onlinecourse.entity.aboutfile.FileData;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
 import com.xhu.onlinecourse.entity.vo.StudentCourseVo;
 import com.xhu.onlinecourse.mapper.TeacherMapper;
+import com.xhu.onlinecourse.service.TeacherService;
 import com.xhu.onlinecourse.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,7 +58,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override//删除教师
     public Integer teacherDelete(Teacher teacher) {
-        return teacherMapper.teacherDelete(teacher);
+        Integer integer = teacherMapper.teacherDelete(teacher);
+        System.out.println(integer);
+        return integer;
     }
 
     @Override//修改教师信息
@@ -184,7 +187,9 @@ public class TeacherServiceImpl implements TeacherService {
             return 0;//没有这个文件，返回删除失败
         }
         //更新数据库
-        return teacherMapper.teacherDeleteRes(courseRes.getCourseId());
+        Integer integer = teacherMapper.teacherDeleteRes(courseRes.getCourseResId());
+        System.out.println(integer);
+        return integer;
     }
 
     @Transactional
@@ -203,6 +208,11 @@ public class TeacherServiceImpl implements TeacherService {
         }
         //更新数据库
         return teacherMapper.teacherDeleteAllRes(courseId);
+    }
+
+    @Override//教师删除指定的学生
+    public Integer studentRemove(Long courseId, StudentCourseVo studentCourseVo) {
+        return teacherMapper.studentRemove(courseId,studentCourseVo.getStudentId());
     }
 
     @Override

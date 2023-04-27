@@ -8,14 +8,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.Date;
-
+/*
+继承homework，获取前端上传的文件
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class HomeworkFileData extends CourseHomework {
-    //courseHomeworkName name
-    //courseHomeworkDate date
-    //courseHomeworkDescription description
     private MultipartFile fileRaw;
     private Long teacherId;
 }

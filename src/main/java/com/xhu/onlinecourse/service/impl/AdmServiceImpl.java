@@ -1,9 +1,10 @@
-package com.xhu.onlinecourse.service;
+package com.xhu.onlinecourse.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xhu.onlinecourse.entity.Adm;
 import com.xhu.onlinecourse.mapper.AdmMapper;
+import com.xhu.onlinecourse.service.AdmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -5,15 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
-
+/*
+fileData对象继承CourseRes，获取前端上传的文件
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class FileData extends CourseRes {
-    /*private Long fileId;
-    private String fileName;*/
     private MultipartFile fileRaw;
     private Long teacherId;
-    /*private Integer episode;
-    private String alias;*/
 }

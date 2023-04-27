@@ -75,4 +75,6 @@ public interface TeacherService {
     //删除所有课程资源
     Integer teacherDeleteAllRes(Long coureseId, Long teacherId, String bathPath);
 
+    //教师删除指定的学生
+    Integer studentRemove(Long courseId, StudentCourseVo studentCourseVo);
 }

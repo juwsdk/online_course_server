@@ -20,6 +20,9 @@ public interface StudentMapper {
     //增加学生
     Integer studentInsert(Student student);
 
+    //获取学号
+    Long studentNumber(Student student);
+
     //删除学生
     Integer studentDelete(Student student);
 

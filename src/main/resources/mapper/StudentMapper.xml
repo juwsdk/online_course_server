@@ -110,5 +110,13 @@
         from student
         where student_id = #{studentId}
     </select>
+    <!--获取学号-->
+    <select id="studentNumber" resultType="java.lang.Long">
+        select student_id
+        from student
+        where student_name = #{studentName}
+          and student_password = #{studentPassword}
+          and student_phonenum = #{studentPhonenum}
+    </select>
 
 </mapper>

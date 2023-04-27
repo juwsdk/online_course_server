@@ -42,13 +42,16 @@
             teacher_phonenum=#{teacherPhonenum},
             teacher_email=#{teacherEmail},
             teacher_address=#{teacherAddress}
+        where teacher_id=#{teacherId}
     </update>
     <!--教师修改课程信息-->
     <update id="courseUpdate">
         update course
         set course_name=#{courseName},
-            course_info=#{courseInfo},
-            course_image=#{courseImage}
+            course_info=#{courseInfo}
+        <if test="courseImage!=null">
+            ,course_image=#{courseImage}
+        </if>
         where course_id=#{courseId}
     </update>
     <!--删除一条课程资源-->
@@ -62,6 +65,17 @@
         delete
         from course_res
         where course_id = #{courseId}
+    </delete>
+    <!--删除教师-->
+    <delete id="teacherDelete">
+        delete
+        from teacher
+        where teacher_id = #{teacherId}
+    </delete>
+    <!--教师删除指定的学生-->
+    <delete id="studentRemove">
+        delete from course_stu
+        where student_id=#{studentId} and course_id=#{courseId}
     </delete>
     <!--模糊查询教师信息-->
     <select id="teacherList" resultType="com.xhu.onlinecourse.entity.Teacher">
@@ -98,7 +112,7 @@
     </select>
     <!--查询教师教授的所有课程-->
     <select id="teacherListById" resultType="com.xhu.onlinecourse.entity.vo.CourseTeacherVo">
-        select course_id, course_name, t.teacher_id, course_info, teacher_name
+        select course_id, course_name, t.teacher_id, course_info, teacher_name, course_image
         from course
                  left join teacher t on course.teacher_id = t.teacher_id
         where t.teacher_id = #{teacherId}
@@ -158,11 +172,7 @@
         order by res_blues
     </select>
     <!--删除教师-->
-    <select id="teacherDelete" resultType="java.lang.Integer">
-        delete
-        from teacher
-        where teacher_id = #{teacherId}
-    </select>
+
     <!--查询课程id-->
     <select id="getCourseId" resultType="java.lang.Long">
         select course_id
@@ -176,5 +186,13 @@
         select *
         from course
         where course_id = #{courseId}
+    </select>
+    <!--查询教师id-->
+    <select id="teacherNumber" resultType="java.lang.Long">
+        select teacher_id
+        from teacher
+        where teacher_name = #{teacherName}
+          and teacher_email = #{teacherEmail}
+          and teacher_phonenum = #{teacherPhonenum}
     </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.xhu.onlinecourse.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class CourseHomeworkSubmit {
     protected Long courseHomeworkSubmitId;
     protected Long courseHomeworkId;
     protected Long studentId;
+    @JsonFormat(pattern = "yyyy-MM-dd",locale = "zh",timezone = "GMT+8")
     protected Date courseHomeworkSubmitDate;
     protected String courseHomeworkRes;
 }

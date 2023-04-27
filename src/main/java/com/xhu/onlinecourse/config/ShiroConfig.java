@@ -1,14 +1,22 @@
 package com.xhu.onlinecourse.config;
 
+import com.xhu.onlinecourse.fliter.MyShrioFilter;
 import com.xhu.onlinecourse.realm.MyRealm;
-import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import javax.servlet.Filter;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
+/*
+shrio配置
+ */
 @Configuration
 public class ShiroConfig {
     @Autowired
@@ -21,20 +29,29 @@ public class ShiroConfig {
         defaultWebSecurityManager.setRealm(myRealm);
         return defaultWebSecurityManager;
     }
+
+
     //配置 Shiro 内置过滤器拦截范围
     @Bean
-    public DefaultShiroFilterChainDefinition shiroFilterChainDefinition() {
-        DefaultShiroFilterChainDefinition definition = new DefaultShiroFilterChainDefinition();
-        //设置不认证可以访问的资源
-//        definition.addPathDefinition("/myController/userLogin", "anon");
-        definition.addPathDefinition("/dataCommit/login", "anon");
-        //配置登出过滤器
-        definition.addPathDefinition("/dataCommit/register", "anon");
-        //配置登出过滤器
-        definition.addPathDefinition("/dataCommit/logout", "anon");
-        //设置需要进行登录认证的拦截范围
-//        definition.addPathDefinition("/**", "authc");
-
-        return definition;
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        //配置过滤器
+        Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
+        MyShrioFilter myShrioFilter=new MyShrioFilter();
+        filters.put("authc", myShrioFilter);
+        shiroFilterFactoryBean.setFilters(filters);
+        // 设置过滤器链
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        filterChainDefinitionMap.put("/dataCommit/login", "anon");
+        filterChainDefinitionMap.put("/dataCommit/register/teacher", "anon");
+        filterChainDefinitionMap.put("/dataCommit/register/student", "anon");
+        filterChainDefinitionMap.put("/dataCommit/logout", "anon");
+        filterChainDefinitionMap.put("/**", "authc");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        return shiroFilterFactoryBean;
     }
+
+
+
 }

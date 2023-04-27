@@ -1,4 +1,4 @@
-package com.xhu.onlinecourse.service;
+package com.xhu.onlinecourse.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -6,6 +6,7 @@ import com.xhu.onlinecourse.entity.CourseHomeworkScore;
 import com.xhu.onlinecourse.entity.CourseRes;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
 import com.xhu.onlinecourse.mapper.CourseMapper;
+import com.xhu.onlinecourse.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -29,7 +29,7 @@ public class TeacherController {
     @Autowired
     private TeacherService teacherService;
 
-    private static final String bathPath = System.getProperty("user.dir") + "/src/main/resources/static";
+//    private static final String bathPath = System.getProperty("user.dir") + "/src/main/resources/static";
 
     @ApiOperation(value = "查询所有教师信息")
     @RequestMapping("/teacherList")
@@ -41,8 +41,9 @@ public class TeacherController {
     }
 
     @ApiOperation(value = "删除教师")
-    @RequestMapping(value = "/teacherDelete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/teacherDelete", method = RequestMethod.POST)
     public Result<Integer> teacherDelete(@RequestBody Teacher teacher) {
+        System.err.println(teacher);
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherDelete(teacher));
     }
 
@@ -79,12 +80,22 @@ public class TeacherController {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherListById(teacherId));
     }
 
+
+
+    @ApiOperation("教师删除指自己课程的学生")
+    @RequestMapping(value = "/{courseId}/studentRemove",method = RequestMethod.POST)
+    public Result<Integer> studentRemove(@PathVariable Long courseId,
+                                         @RequestBody StudentCourseVo studentCourseVo){
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),teacherService.studentRemove(courseId,studentCourseVo));
+    }
+
     @ApiOperation(value = "通过课程id和教师id查询该教师教授的学生信息")
-    @RequestMapping("/{teacherId}/{courseId}/studentList")
+    @RequestMapping("/{courseId}/{teacherId}/studentList")
     public Result<PageInfo<Student>> studentListByTeacherCourseId(@RequestParam(defaultValue = "1") int pageNum,
                                                                   @RequestParam(defaultValue = "10") int pageSize,
                                                                   @PathVariable Long teacherId,
                                                                   @PathVariable Long courseId) {
+        System.err.println("11111111111111111");;
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.studentListByTeacherCourseId(teacherId, courseId, pageNum, pageSize));
     }
 
@@ -96,8 +107,10 @@ public class TeacherController {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.studentCourseListByTeacherId(pageNum, pageSize, teacherId));
     }
 
+
+
     @ApiOperation(value = "查询有多少学生选了这个教师的课程")
-    @RequestMapping(path = "/{teacherId}/countStudent", method = RequestMethod.GET)
+    @RequestMapping(value = "/{teacherId}/countStudent", method = RequestMethod.GET)
     public Result<Integer> teacherCourseStudentSelectNum(@PathVariable Long teacherId) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherCourseStudentSelectNum(teacherId));
     }
@@ -112,14 +125,14 @@ public class TeacherController {
     @RequestMapping(path = "/courseInsert", method = RequestMethod.POST)
     public Result<Integer> teacherAddNewCourse(@ModelAttribute CourseFile courseFile) throws IOException {
         System.err.println(courseFile);
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.courseInsert(courseFile, bathPath));
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.courseInsert(courseFile, FileUtil.bathPath));
     }
 
     @ApiOperation(value = "教师修改课程")
     @RequestMapping(path = "/courseUpdate", method = RequestMethod.POST)
     public Result<Integer> teacherUpdateCourse(@ModelAttribute CourseFile courseFile) throws IOException {
         System.err.println(courseFile);
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.courseUpdate(courseFile, bathPath));
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.courseUpdate(courseFile, FileUtil.bathPath));
     }
 
     @ApiOperation(value = "教师教授的课程信息")
@@ -134,7 +147,7 @@ public class TeacherController {
                                                     @PathParam("courseId") Long courseId,
                                                     @PathParam("courseImage") String courseImage) throws IOException {
         System.err.println(teacherId);
-        String targetPath=String.format("%s/%s/%s/%s",bathPath,teacherId,courseId,courseImage);
+        String targetPath=String.format("%s/%s/%s/%s",FileUtil.bathPath,teacherId,courseId,courseImage);
         return FileUtil.sendFileBytes(targetPath,courseImage);
     }
 

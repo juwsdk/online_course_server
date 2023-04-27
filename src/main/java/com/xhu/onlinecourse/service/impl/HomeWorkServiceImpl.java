@@ -1,4 +1,4 @@
-package com.xhu.onlinecourse.service;
+package com.xhu.onlinecourse.service.impl;
 
 import com.xhu.onlinecourse.entity.CourseHomework;
 import com.xhu.onlinecourse.entity.CourseHomeworkScore;
@@ -7,6 +7,7 @@ import com.xhu.onlinecourse.entity.aboutfile.HomeworkFileData;
 import com.xhu.onlinecourse.entity.aboutfile.HomeworkSubmitFileData;
 import com.xhu.onlinecourse.entity.vo.CourseSubmitVo;
 import com.xhu.onlinecourse.mapper.HomeworkMapper;
+import com.xhu.onlinecourse.service.HomeWorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
