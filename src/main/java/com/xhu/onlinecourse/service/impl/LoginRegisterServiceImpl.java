@@ -46,8 +46,6 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
 
     @Override
     public Integer register(Object obj,String userType) {
-        System.err.println(obj);
-        System.err.println(userType);
         if(userType.equals("student")){
             Student student= (Student) obj;
             if(studentMapper.studentInsert(student)==1)

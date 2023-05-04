@@ -46,10 +46,6 @@ public class MyRealm extends AuthorizingRealm {
         } catch (Exception e) {
             throw new UnknownAccountException();//账户不存在
         }
-//        //验证id
-//        if (userMap.size() < 0) {
-//            throw new UnknownAccountException();//不存在就抛出错误
-//        }
         //验证密码
         return new SimpleAuthenticationInfo(authenticationToken.getPrincipal(), userMap.get(Long.valueOf(userId)), authenticationToken.getPrincipal().toString());
     }

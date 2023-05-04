@@ -1,7 +1,6 @@
 package com.xhu.onlinecourse.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.xhu.onlinecourse.entity.Course;
 import com.xhu.onlinecourse.entity.CourseRes;
 import com.xhu.onlinecourse.entity.vo.CourseTeacherVo;
 import com.xhu.onlinecourse.service.CourseService;
@@ -26,7 +25,7 @@ public class CourseController {
     //课程选择页面发送的信息
     @ApiOperation(value = "查询所有课程")
     @RequestMapping(value = "/courseList")
-    public Result<PageInfo<CourseTeacherVo>> CourseList(@RequestParam(defaultValue = "1") int pageNum,
+    public Result<PageInfo<CourseTeacherVo>> courseList(@RequestParam(defaultValue = "1") int pageNum,
                                                         @RequestParam(defaultValue = "5") int pageSize) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), courseService.courseList(pageNum, pageSize));
     }
