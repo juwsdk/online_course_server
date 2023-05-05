@@ -54,5 +54,3 @@ pagehelper: #分页插件
   params: count=countSql
 #logging:
 #  config: classpath:logback-spring.xml
-#shiro:
-#  loginUrl: /dataCommit/login

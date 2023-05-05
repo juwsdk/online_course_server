@@ -1,12 +1,12 @@
 package com.xhu.onlinecourse.utils;
 
-import lombok.Data;
-import lombok.Getter;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,7 +19,7 @@ public class FileUtil {
 
     public static final String bathPath = System.getProperty("user.dir") + "/src/main/resources/static";
 
-    //获取文件类型
+    /*//获取文件类型
     public static String detectFileType(String filePath) {
         try {
             Path path = Paths.get(filePath);
@@ -34,7 +34,7 @@ public class FileUtil {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     //递归删除文件
     public static Boolean deleteAllFiles(File dir) {

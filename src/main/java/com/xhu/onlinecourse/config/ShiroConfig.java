@@ -3,14 +3,12 @@ package com.xhu.onlinecourse.config;
 import com.xhu.onlinecourse.fliter.MyShrioFilter;
 import com.xhu.onlinecourse.realm.MyRealm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import javax.servlet.Filter;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -38,7 +36,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         //配置过滤器
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
-        MyShrioFilter myShrioFilter=new MyShrioFilter();
+        MyShrioFilter myShrioFilter = new MyShrioFilter();
         filters.put("authc", myShrioFilter);
         shiroFilterFactoryBean.setFilters(filters);
         // 设置过滤器链
@@ -47,6 +45,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/dataCommit/register/teacher", "anon");
         filterChainDefinitionMap.put("/dataCommit/register/student", "anon");
         filterChainDefinitionMap.put("/dataCommit/logout", "anon");
+        filterChainDefinitionMap.put("/swagger-ui/#/**", "anon");
+        filterChainDefinitionMap.put("/durid/**", "anon");
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;

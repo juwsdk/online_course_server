@@ -74,8 +74,16 @@
     </delete>
     <!--教师删除指定的学生-->
     <delete id="studentRemove">
-        delete from course_stu
-        where student_id=#{studentId} and course_id=#{courseId}
+        delete
+        from course_stu
+        where student_id = #{studentId}
+          and course_id = #{courseId}
+    </delete>
+    <!--教师删除课程-->
+    <delete id="courseDelete">
+        delete
+        from course
+        where course_id = #{courseId}
     </delete>
     <!--模糊查询教师信息-->
     <select id="teacherList" resultType="com.xhu.onlinecourse.entity.Teacher">

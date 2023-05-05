@@ -42,6 +42,9 @@ public interface TeacherMapper {
     //教师修改课程信息
     Integer courseUpdate(Course course);
 
+    //教师删除课程
+    Integer courseDelete(@Param("courseId") Long courseId);
+
     //查询教师的课程id
     Long getCourseId(Course course);
 
@@ -73,9 +76,11 @@ public interface TeacherMapper {
     //删除一条课程资源
     Integer teacherDeleteRes(@Param("courseResId") Long courseResId);
 
-    //删除所有课程
+    //删除所有课程资源
     Integer teacherDeleteAllRes(@Param("courseId") Long courseId);
 
     //教师删除指定的学生
     Integer studentRemove(@Param("courseId") Long courseId, @Param("studentId") Long studentId);
+
+
 }

@@ -113,13 +113,18 @@ public class TeacherServiceImpl implements TeacherService {
         return 1;//IO也没有异常，说明操作成功
     }
 
+    @Override//教师删除一门课程
+    public Integer courseDelete(Long courseId) {
+        return teacherMapper.courseDelete(courseId);
+    }
+
     @Override//查询教师的一门课程
     public Course getCourseInfoById(Long courseId) {
         return teacherMapper.getCourseInfoById(courseId);
     }
 
     @Override//教师修改一门课程的课程信息
-    public Integer courseUpdate(CourseFile course,String bathPath) throws IOException {
+    public Integer courseUpdate(CourseFile course, String bathPath) throws IOException {
         if (teacherMapper.courseUpdate(course) == 0) {//先写入数据库再查询课程id创建文件夹
             return 0;
         }

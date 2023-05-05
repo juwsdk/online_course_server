@@ -29,7 +29,6 @@ public class TeacherController {
     @Autowired
     private TeacherService teacherService;
 
-//    private static final String bathPath = System.getProperty("user.dir") + "/src/main/resources/static";
 
     @ApiOperation(value = "查询所有教师信息")
     @RequestMapping("/teacherList")
@@ -82,8 +81,8 @@ public class TeacherController {
 
 
 
-    @ApiOperation("教师删除指自己课程的学生")
-    @RequestMapping(value = "/{courseId}/studentRemove",method = RequestMethod.POST)
+    @ApiOperation("教师删除自己课程的学生")
+    @RequestMapping(value = "/{courseId}/studentRemove", method = RequestMethod.POST)
     public Result<Integer> studentRemove(@PathVariable Long courseId,
                                          @RequestBody StudentCourseVo studentCourseVo){
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),teacherService.studentRemove(courseId,studentCourseVo));
@@ -95,7 +94,7 @@ public class TeacherController {
                                                                   @RequestParam(defaultValue = "10") int pageSize,
                                                                   @PathVariable Long teacherId,
                                                                   @PathVariable Long courseId) {
-        System.err.println("11111111111111111");;
+//        System.err.println("11111111111111111");;
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.studentListByTeacherCourseId(teacherId, courseId, pageNum, pageSize));
     }
 
@@ -133,6 +132,12 @@ public class TeacherController {
     public Result<Integer> teacherUpdateCourse(@ModelAttribute CourseFile courseFile) throws IOException {
         System.err.println(courseFile);
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.courseUpdate(courseFile, FileUtil.bathPath));
+    }
+
+    @ApiOperation(value = "教师删除课程")
+    @RequestMapping(path = "/{courseId}/courseDelete", method = RequestMethod.DELETE)
+    public Result<Integer> teacherDeleteCourse(@PathVariable Long courseId) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.courseDelete(courseId));
     }
 
     @ApiOperation(value = "教师教授的课程信息")
