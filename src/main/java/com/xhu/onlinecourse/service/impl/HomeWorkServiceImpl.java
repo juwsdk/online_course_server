@@ -45,6 +45,31 @@ public class HomeWorkServiceImpl implements HomeWorkService {
         return 0;
     }
 
+    @Override//学生提交作业前是否还提交了作业
+    public CourseHomeworkSubmit studentSubmitHomeworkBefore(Long courseHomeworkId, Long studentId) {
+        return homeworkMapper.studentSubmitHomeworkBefore(courseHomeworkId, studentId);
+    }
+
+    @Override//学生修改提交的作业
+    public Integer studentUpdateHomework(HomeworkSubmitFileData courseHomeworkSubmit, String bathPath) throws IOException {
+        //获得文件，写入文件夹 static/{teacherId}/{courseId}/homework/homeworkSubmit
+        String coursesPath = String.format("%s/%s/%s/homework/homeworkSubmit", bathPath, courseHomeworkSubmit.getTeacherId(), courseHomeworkSubmit.getCourseId());
+        File srcFloder = new File(coursesPath);
+        //不存在这个文件夹，则创建这个文件夹
+        if (!srcFloder.exists()) {
+            srcFloder.mkdirs();
+        }
+        File oldFile = new File(srcFloder, courseHomeworkSubmit.getOldName());
+        if (oldFile.exists())
+            oldFile.delete();//删除原来的文件
+        File saveFile = new File(srcFloder, courseHomeworkSubmit.getCourseHomeworkRes());
+        //写入文件,如果有异常会抛出，不会继续执行
+        courseHomeworkSubmit.getFileRaw().transferTo(saveFile);
+        if (homeworkMapper.studentUpdateSubmitHomework(courseHomeworkSubmit) == 1)
+            return 1;
+        return 0;
+    }
+
     @Override
     public Integer studentSubmitHomework(HomeworkSubmitFileData courseHomeworkSubmit, String bathPath) throws IOException {
         //获得文件，写入文件夹 static/{teacherId}/{courseId}/homework/homeworkSubmit

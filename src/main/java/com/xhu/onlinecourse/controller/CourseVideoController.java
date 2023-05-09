@@ -9,16 +9,10 @@ import com.xhu.onlinecourse.utils.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
 import java.util.List;
 
 @Api(value = "视频资源接口")
@@ -39,10 +33,6 @@ public class CourseVideoController {
     @ApiOperation(value = "教师上传视频")//ModelAttribute可以接收前端formData后端用javabean接收
     @PostMapping("/upload")
     public Result<Integer> handleFileUpload(@ModelAttribute FileData fileData) throws IOException {
-        //System.out.println(fileData.getFileRaw().getSize());
-        //String name = fileData.getResFileName().substring(0, fileData.getResFileName().indexOf("."));
-        //System.err.println(fileData);
-        //String data = name + "已经上传成功!";
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherAddRes(fileData, FileUtil.bathPath));
     }
 

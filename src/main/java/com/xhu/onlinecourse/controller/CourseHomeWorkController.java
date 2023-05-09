@@ -65,6 +65,22 @@ public class CourseHomeWorkController {
                 homeWorkService.teacherUploadHomework(homeWorkFileData, FileUtil.bathPath));
     }
 
+    @ApiOperation(value = "查询学生之前上传的作业")
+    @PostMapping("/{studentId}/{courseHomeworkId}/homeWorkFinishedUpload")
+    public Result<CourseHomeworkSubmit> homeWorkFinishedUploadBefo(@PathVariable Long studentId,
+                                                                   @PathVariable Long courseHomeworkId) throws IOException {
+
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),
+                homeWorkService.studentSubmitHomeworkBefore(courseHomeworkId, studentId));
+    }
+
+    @ApiOperation(value = "学生修改上传的作业")
+    @PutMapping("/homeWorkFinishedUpload")
+    public Result<Integer> updateHomeWorkFinishedUpload(@ModelAttribute HomeworkSubmitFileData homeworkSubmitFileData) throws IOException {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),
+                homeWorkService.studentUpdateHomework(homeworkSubmitFileData, FileUtil.bathPath));
+    }
+
     @ApiOperation(value = "学生上传完成的作业")
     @PostMapping("/homeWorkFinishedUpload")
     public Result<Integer> homeWorkFinishedUpload(@ModelAttribute HomeworkSubmitFileData homeWorkFileData) throws IOException {

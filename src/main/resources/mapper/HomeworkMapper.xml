@@ -21,6 +21,14 @@
         insert into course_homework_score(course_homework_submit_id, course_homework_score)
         values (#{courseHomeworkSubmitId}, #{courseHomeworkScore})
     </insert>
+    <!--学生修改作业-->
+    <update id="studentUpdateSubmitHomework">
+        update course_homework_submit
+        set course_homework_submit_date=#{courseHomeworkSubmitDate},
+            course_homework_res=#{courseHomeworkRes}
+        where course_homework_id = #{courseHomeworkId}
+          and student_id = #{studentId}
+    </update>
     <!--查询课程相关的作业-->
     <select id="homeworkListByCourseId" resultType="com.xhu.onlinecourse.entity.CourseHomework">
         select *
@@ -71,6 +79,13 @@
         select *
         from course_homework_submit
         where course_homework_submit_id = #{courseHomeworkSubmitId}
+    </select>
+    <!--查询学生之前是否提交了作业-->
+    <select id="studentSubmitHomeworkBefore" resultType="com.xhu.onlinecourse.entity.CourseHomeworkSubmit">
+        select course_homework_res
+        from course_homework_submit
+        where course_homework_id = #{courseHomeworkId}
+          and student_id = #{studentId}
     </select>
     <!--教师删除作业-->
     <delete id="homeworkDelete">

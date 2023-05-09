@@ -94,7 +94,6 @@ public class TeacherController {
                                                                   @RequestParam(defaultValue = "10") int pageSize,
                                                                   @PathVariable Long teacherId,
                                                                   @PathVariable Long courseId) {
-//        System.err.println("11111111111111111");;
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.studentListByTeacherCourseId(teacherId, courseId, pageNum, pageSize));
     }
 

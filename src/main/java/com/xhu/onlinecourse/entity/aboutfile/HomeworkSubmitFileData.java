@@ -15,4 +15,5 @@ public class HomeworkSubmitFileData extends CourseHomeworkSubmit {
     private MultipartFile fileRaw;
     private Long teacherId;
     private Long courseId;
+    private String oldName;//如果是更新提交的文件，则找到老的作业名，用于服务器中删除资源
 }

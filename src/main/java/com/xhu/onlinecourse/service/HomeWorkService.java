@@ -6,7 +6,6 @@ import com.xhu.onlinecourse.entity.CourseHomeworkSubmit;
 import com.xhu.onlinecourse.entity.aboutfile.HomeworkFileData;
 import com.xhu.onlinecourse.entity.aboutfile.HomeworkSubmitFileData;
 import com.xhu.onlinecourse.entity.vo.CourseSubmitVo;
-import org.apache.ibatis.annotations.Param;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +17,12 @@ public interface HomeWorkService {
 
     //教师上传作业
     Integer teacherUploadHomework(HomeworkFileData courseHomework, String bathPath) throws IOException;
+
+    //学生提交作业前是否还提交了作业
+    CourseHomeworkSubmit studentSubmitHomeworkBefore(Long courseHomeworkId, Long studentId);
+
+    //学生修改提交的作业
+    Integer studentUpdateHomework(HomeworkSubmitFileData courseHomeworkSubmit, String bathPath) throws IOException;
 
     //学生提交作业
     Integer studentSubmitHomework(HomeworkSubmitFileData courseHomeworkSubmit, String bathPath) throws IOException;

@@ -3,8 +3,6 @@ package com.xhu.onlinecourse.mapper;
 import com.xhu.onlinecourse.entity.CourseHomework;
 import com.xhu.onlinecourse.entity.CourseHomeworkScore;
 import com.xhu.onlinecourse.entity.CourseHomeworkSubmit;
-import com.xhu.onlinecourse.entity.Student;
-import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -29,6 +27,12 @@ public interface HomeworkMapper {
 
     //查看指定学生上传的作业
     CourseHomeworkSubmit homeworkSubmitStudentOne(@Param("courseHomeworkSubmitId") Long courseHomeworkSubmitId);
+
+    //查询学生之前是否提交了作业
+    CourseHomeworkSubmit studentSubmitHomeworkBefore(@Param("courseHomeworkId") Long courseHomeworkId, @Param("studentId") Long studentId);
+
+    //学生修改作业
+    Integer studentUpdateSubmitHomework(CourseHomeworkSubmit courseHomeworkSubmit);
 
     //学生提交作业
     Integer studentSubmitHomework(CourseHomeworkSubmit courseHomeworkSubmit);
