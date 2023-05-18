@@ -17,8 +17,8 @@
     </insert>
     <!--将上传的课程视频信息写入数据库-->
     <insert id="teacherAddRes">
-        insert into course_res(res_video_name, res_file_name, course_id, res_blues)
-        values (#{resVideoName}, #{resFileName}, #{courseId}, #{resBlues})
+        insert into course_res(res_video_name, res_file_name, course_id, res_blues, copyright)
+        values (#{resVideoName}, #{resFileName}, #{courseId}, #{resBlues}, #{copyright})
     </insert>
     <!--教师增加一门课程-->
     <insert id="courseInsert">

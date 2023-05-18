@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://ch.qos.logback/xml/ns/logback"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback
+                https://raw.githubusercontent.com/enricopulatzo/logback-XSD/master/src/main/xsd/logback.xsd">
+    <!--logback日志文件-->
+    <!--日志存放路径-->
+    <property name="LOG_HOME" value="./logs"/>
+    <property name="PROJECT_PREFIX" value="online_course"/>
+    <property name="LOG_LEVE" value="DEBUG"/>
+    <!--输出到控制台-->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %highlight(%date{yyyy-MM-dd HH:mm:ss.SSS}) %cyan([%thread]) %highlight(%-5level)
+                %green(%logger{36}).%magenta(%M)-%boldMagenta(%line) - %highlight(%msg%n)
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!--springboot fileappender,追加到文件-->
+    <appender name="springFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${PROJECT_PREFIX}-spring.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${PROJECT_PREFIX}-spring.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <maxHistory>10</maxHistory><!--最大文件数量-->
+            <totalSizeCap>100MB</totalSizeCap><!--总的文件大小，超过会删除-->
+            <!--<maxFileSize>10MB</maxFileSize>--><!--单个最大文件大小-->
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--mybatis fileappender,追加到文件-->
+    <appender name="mybatisFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${PROJECT_PREFIX}-mybatis.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${PROJECT_PREFIX}-mybatis.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap><!--总的文件大小，超过会删除-->
+            <!--<maxFileSize>10MB</maxFileSize>-->
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+    <!--springboot日志-->
+    <logger name="org.springframework" level="${LOG_LEVE}" additivity="false">
+        <appender-ref ref="springFile"/>
+        <appender-ref ref="stdout"/>
+    </logger>
+    <!--mybatis日志-->
+    <logger name="com.xhu.onlinecourse" level="${LOG_LEVE}" additivity="false">
+        <appender-ref ref="mybatisFile"/>
+        <appender-ref ref="stdout"/>
+    </logger>
+    <!--状态监听，并输入到控制台-->
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+    <!--总的-->
+    <root level="trace">
+        <appender-ref ref="springFile"/>
+        <appender-ref ref="mybatisFile"/>
+    </root>
+
+</configuration>

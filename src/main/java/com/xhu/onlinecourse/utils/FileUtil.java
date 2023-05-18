@@ -19,23 +19,6 @@ public class FileUtil {
 
     public static final String bathPath = System.getProperty("user.dir") + "/src/main/resources/static";
 
-    /*//获取文件类型
-    public static String detectFileType(String filePath) {
-        try {
-            Path path = Paths.get(filePath);
-            String contentType = Files.probeContentType(path);
-            if (contentType == null) {
-                URL url = new URL("file://" + filePath);
-                URLConnection connection = url.openConnection();
-                contentType = connection.getContentType();
-            }
-            return contentType;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
-
     //递归删除文件
     public static Boolean deleteAllFiles(File dir) {
         //文件夹不存在

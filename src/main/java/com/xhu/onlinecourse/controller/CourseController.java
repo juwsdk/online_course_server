@@ -65,7 +65,7 @@ public class CourseController {
 
     //发送学生网课视频
     @ApiOperation(value = "根据课程号查询课程资源")
-    @RequestMapping(method = RequestMethod.POST, value = "/courseList/{courseId}")
+    @RequestMapping(value = "/courseList/{courseId}", method = RequestMethod.POST)
     public Result<List<CourseRes>> stuCourseRouterList(@PathVariable Long courseId) {
 
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), courseService.getCourseResList(courseId));

@@ -37,7 +37,7 @@ public class CourseHomeWorkController {
 
     //下载作业附件
     @ApiOperation(value = "学生下载作业附件")
-    @GetMapping("/downLoad")
+    @RequestMapping(value = "/downLoad", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getHomeworkRes(@RequestParam String teacherId,
                                                  @RequestParam String courseId,
                                                  @RequestParam String courseHomeworkRes) throws IOException {
@@ -49,7 +49,7 @@ public class CourseHomeWorkController {
 
     //教师下载学生完成的作业附件
     @ApiOperation(value = "教师下载学生完成作业的附件")
-    @PostMapping("/downLoadStuSubmit")
+    @RequestMapping(value = "/downLoadStuSubmit", method = RequestMethod.POST)
     public ResponseEntity<byte[]> getHomeworkSubmitRes(@RequestBody CourseSubmitVo courseSubmitVo) throws IOException {
         String fileName = homeWorkService.homeworkSubmitStudentOne(courseSubmitVo);
         String dirPath = String.format("%s/%s/%s/homework/homeworkSubmit/%s", FileUtil.bathPath,
@@ -58,7 +58,7 @@ public class CourseHomeWorkController {
     }
 
     @ApiOperation(value = "教师上传作业")
-    @PostMapping("/homeWorkUpload")
+    @RequestMapping(value = "/homeWorkUpload", method = RequestMethod.POST)
     public Result<Integer> homeWorkUpload(@ModelAttribute HomeworkFileData homeWorkFileData) throws IOException {
 
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),
@@ -66,7 +66,7 @@ public class CourseHomeWorkController {
     }
 
     @ApiOperation(value = "查询学生之前上传的作业")
-    @PostMapping("/{studentId}/{courseHomeworkId}/homeWorkFinishedUpload")
+    @RequestMapping(value = "/{studentId}/{courseHomeworkId}/homeWorkFinishedUpload", method = RequestMethod.POST)
     public Result<CourseHomeworkSubmit> homeWorkFinishedUploadBefo(@PathVariable Long studentId,
                                                                    @PathVariable Long courseHomeworkId) throws IOException {
 
@@ -75,14 +75,14 @@ public class CourseHomeWorkController {
     }
 
     @ApiOperation(value = "学生修改上传的作业")
-    @PutMapping("/homeWorkFinishedUpload")
+    @RequestMapping(value = "/homeWorkFinishedUpload", method = RequestMethod.PUT)
     public Result<Integer> updateHomeWorkFinishedUpload(@ModelAttribute HomeworkSubmitFileData homeworkSubmitFileData) throws IOException {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),
                 homeWorkService.studentUpdateHomework(homeworkSubmitFileData, FileUtil.bathPath));
     }
 
     @ApiOperation(value = "学生上传完成的作业")
-    @PostMapping("/homeWorkFinishedUpload")
+    @RequestMapping(value = "/homeWorkFinishedUpload", method = RequestMethod.POST)
     public Result<Integer> homeWorkFinishedUpload(@ModelAttribute HomeworkSubmitFileData homeWorkFileData) throws IOException {
 
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),
@@ -90,7 +90,7 @@ public class CourseHomeWorkController {
     }
 
     @ApiOperation(value = "完成作业的学生学号和姓名列表")
-    @PostMapping("/{courseHomeworkId}/count")
+    @RequestMapping(value = "/{courseHomeworkId}/count", method = RequestMethod.POST)
     public Result<List<Map<String, String>>> studentCountFinish(@PathVariable Long courseHomeworkId) {
 
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),
@@ -98,7 +98,7 @@ public class CourseHomeWorkController {
     }
 
     @ApiOperation(value = "教师下载学生提交的作业附件")
-    @PostMapping("/downLoadStudentRes/{teacherId}/{courseId}/{courseHomeworkRes}")
+    @RequestMapping(value = "/downLoadStudentRes/{teacherId}/{courseId}/{courseHomeworkRes}", method = RequestMethod.POST)
     public ResponseEntity<byte[]> getStudentHomeWorkRes(@PathVariable String teacherId,
                                                         @PathVariable String courseId,
                                                         @PathVariable String courseHomeworkRes) throws IOException {
@@ -107,14 +107,14 @@ public class CourseHomeWorkController {
     }
 
     @ApiOperation(value = "展示学生上传的作业列表")
-    @PostMapping("/{courseHomeworkId}/showHomework")
+    @RequestMapping(value = "/{courseHomeworkId}/showHomework", method = RequestMethod.POST)
     public Result<List<Map<String, CourseHomeworkSubmit>>> homeworkSubmitByHomeworkId(@PathVariable Long courseHomeworkId) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),
                 homeWorkService.homeworkSubmitByHomeworkId(courseHomeworkId));
     }
 
     @ApiOperation(value = "没有完成作业的学生姓名")
-    @GetMapping("/{courseHomeworkId}/showHomework")
+    @RequestMapping(value = "/{courseHomeworkId}/showHomework", method = RequestMethod.GET)
     public Result<List<String>> studentCountUnFinish(@PathVariable Long courseHomeworkId) {
 
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),
@@ -122,14 +122,14 @@ public class CourseHomeWorkController {
     }
 
     @ApiOperation(value = "教师给学生打分")
-    @PutMapping("/scoreToStudent")
+    @RequestMapping(value = "/scoreToStudent", method = RequestMethod.PUT)
     public Result<Integer> scoreToStudent(@RequestBody CourseHomeworkScore courseHomeworkScore) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),
                 homeWorkService.scoreToStudent(courseHomeworkScore));
     }
 
     @ApiOperation(value = "学生查看得分")
-    @GetMapping("/{studentId}/{courseHomeworkId}/scoreShowToStudent")
+    @RequestMapping(value = "/{studentId}/{courseHomeworkId}/scoreShowToStudent", method = RequestMethod.GET)
     public Result<Integer> scoreShowToStudent(@PathVariable Long studentId,
                                               @PathVariable Long courseHomeworkId) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),
