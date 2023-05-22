@@ -49,10 +49,10 @@ public interface TeacherMapper {
     Long getCourseId(Course course);
 
     //查询教师教授的学生信息
-    List<Student> studentListByTeacherCourseId(@Param("teacherId") Long teacherId, @Param("courseId") Long courseId);
+    List<Student> studentListByTeacherCourseId(@Param("teacherId") Long teacherId, @Param("courseId") Long courseId, @Param("columnName") String name, @Param("value") String value);
 
-    //查询教师所有开课所有学生选择的信息
-    List<StudentCourseVo> studentCourseListByTeacherId(@Param("teacherId") Long teacherId);
+    //查询教师所有开课所有学生选择的信息,支持模糊查询
+    List<StudentCourseVo> studentCourseListByTeacherId(@Param("teacherId") Long teacherId, @Param("columnName") String name, @Param("value") String value);
 
     //教师布置作业，写入数据库
     Integer addHomeWork(CourseHomework courseHomework);

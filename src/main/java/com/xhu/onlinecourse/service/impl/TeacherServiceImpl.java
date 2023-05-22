@@ -40,9 +40,9 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public PageInfo<Student> studentListByTeacherCourseId(Long teacherId, Long courseId, int pageNum, int pageSize) {
+    public PageInfo<Student> studentListByTeacherCourseId(int pageNum, int pageSize, String columnName, String value, Long teacherId, Long courseId) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Student> students = teacherMapper.studentListByTeacherCourseId(teacherId, courseId);
+        List<Student> students = teacherMapper.studentListByTeacherCourseId(teacherId, courseId, columnName, value);
         return new PageInfo<>(students);
     }
 
@@ -221,9 +221,9 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public PageInfo<StudentCourseVo> studentCourseListByTeacherId(int pageNum, int pageSize, Long teacherId) {
+    public PageInfo<StudentCourseVo> studentCourseListByTeacherId(int pageNum, int pageSize, String columnName, String value, Long teacherId) {
         PageHelper.startPage(pageNum, pageSize);
-        List<StudentCourseVo> studentCourseVos = teacherMapper.studentCourseListByTeacherId(teacherId);
+        List<StudentCourseVo> studentCourseVos = teacherMapper.studentCourseListByTeacherId(teacherId, columnName, value);
         return new PageInfo<>(studentCourseVos);
     }
 }

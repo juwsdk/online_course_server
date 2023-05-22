@@ -38,7 +38,7 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml #mapper.xml存放路径（resource）
   type-aliases-package: com.xhu.onlinecourse.entity
   configuration:
-    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl #输出日志     .stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl #输出日志   .stdout.StdOutImpl
     mapUnderscoreToCamelCase: true
     map-underscore-to-camel-case: true
 #logging: #打印日志

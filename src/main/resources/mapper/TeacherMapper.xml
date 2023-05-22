@@ -42,13 +42,13 @@
             teacher_phonenum=#{teacherPhonenum},
             teacher_email=#{teacherEmail},
             teacher_address=#{teacherAddress}
-        where teacher_id=#{teacherId}
+        where teacher_id = #{teacherId}
     </update>
     <!--教师修改课程信息-->
     <update id="courseUpdate">
         update course
         set course_name=#{courseName},
-            course_info=#{courseInfo}
+        course_info=#{courseInfo}
         <if test="courseImage!=null">
             ,course_image=#{courseImage}
         </if>
@@ -129,22 +129,55 @@
     <select id="studentListByTeacherCourseId" resultType="com.xhu.onlinecourse.entity.Student">
         SELECT student.student_id, student_name, student_gender, student_email
         FROM student,
-             course_stu,
-             course
+        course_stu,
+        course
         WHERE student.`student_id` = course_stu.`student_id`
-          AND course.`course_id` = course_stu.`course_id`
-          AND teacher_id = #{teacherId}
-          AND course.course_id = #{courseId}
+        AND course.`course_id` = course_stu.`course_id`
+        AND teacher_id = #{teacherId}
+        AND course.course_id = #{courseId}
+        <choose>
+            <when test="columnName=='studentId'">
+                and student.`student_id` like '%${value}%'
+            </when>
+            <when test="columnName=='studentName'">
+                and student.`student_name` like '%${value}%'
+            </when>
+            <when test="columnName=='studentGender'">
+                and student.`student_gender` like '%${value}%'
+            </when>
+            <when test="columnName=='studentEmail'">
+                and student.`student_email` like '%${value}%'
+            </when>
+            <otherwise></otherwise>
+        </choose>
     </select>
     <!--查询教师所有开课所有学生选择的信息-->
     <select id="studentCourseListByTeacherId" resultType="com.xhu.onlinecourse.entity.vo.StudentCourseVo">
         select student.student_id, student_name, student_gender, student_email, course_name
         FROM student,
-             course_stu,
-             course
+        course_stu,
+        course
         WHERE student.`student_id` = course_stu.`student_id`
-          AND course.`course_id` = course_stu.`course_id`
-          AND teacher_id = #{teacherId}
+        AND course.`course_id` = course_stu.`course_id`
+        AND teacher_id = #{teacherId}
+        <choose>
+            <when test="columnName=='studentId'">
+                and student.`student_id` like '%${value}%'
+            </when>
+            <when test="columnName='studentName'">
+                and student.`student_name` like '%${value}%'
+            </when>
+            <when test="columnName=='studentGender'">
+                and student.`student_gender` like '%${value}%'
+            </when>
+            <when test="columnName=='studentEmail'">
+                and student.`student_email` like '%${value}%'
+            </when>
+            <when test="columnName=='courseName'">
+                and course.`course_name` like '%${value}%'
+            </when>
+            <otherwise></otherwise>
+        </choose>
     </select>
     <!--查询教师教授的课程一共有多少学生选-->
     <select id="teacherCourseStudentSelectNum" resultType="java.lang.Integer">

@@ -1,8 +1,9 @@
 package com.xhu.onlinecourse.realm;
 
-import com.xhu.onlinecourse.entity.loginuser.UsernamePasswordTypeToken;
+import com.xhu.onlinecourse.entity.loginuser.JwtToken;
+import com.xhu.onlinecourse.entity.loginuser.User;
 import com.xhu.onlinecourse.service.LoginRegisterService;
-import org.apache.shiro.SecurityUtils;
+import com.xhu.onlinecourse.utils.JwtUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -24,8 +25,9 @@ public class MyRealm extends AuthorizingRealm {
 
     @Override//自定义授权方法
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String userId = (String) principalCollection.getPrimaryPrincipal();
-        String roleType = (String) SecurityUtils.getSubject().getSession().getAttribute("loginType");
+        User user = (User) principalCollection.getPrimaryPrincipal();
+        String userId = String.valueOf(user.getUserId());
+        String roleType = user.getLoginType();
         //添加角色
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.addRole(roleType);
@@ -35,18 +37,23 @@ public class MyRealm extends AuthorizingRealm {
 
     @Override//自定义登录认证方法
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+        //取出token
+        JwtToken jwtToken = (JwtToken) authenticationToken;
+        String token = (String) jwtToken.getPrincipal();
         // 获取用户身份信息
-        UsernamePasswordTypeToken token = (UsernamePasswordTypeToken) authenticationToken;
-        String userId = token.getUsername();
-        String loginType = token.getLoginType();
-        // 调用业务层获取用户信息（数据库中）
-        Map<Long, String> userMap;
-        try {
-            userMap = loginRegisterService.getUserInfo(Long.valueOf(userId), loginType);
-        } catch (Exception e) {
+        Map<String, Object> claims = JwtUtils.parseToken(token);
+        String userId = String.valueOf(claims.get("userId"));
+        String loginType = String.valueOf(claims.get("loginType"));
+        //封装信息，作为principal
+        User user = new User(Long.parseLong(userId), null, loginType);
+        System.out.println(userId);
+        if (!loginRegisterService.checkUserId(user))
             throw new UnknownAccountException();//账户不存在
-        }
-        //验证密码
-        return new SimpleAuthenticationInfo(authenticationToken.getPrincipal(), userMap.get(Long.valueOf(userId)), authenticationToken.getPrincipal().toString());
+        return new SimpleAuthenticationInfo(user, jwtToken.getCredentials(), this.getName());
+    }
+
+    @Override//设置生成的为JwtToken
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof JwtToken;
     }
 }

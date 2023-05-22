@@ -93,16 +93,20 @@ public class TeacherController {
     public Result<PageInfo<Student>> studentListByTeacherCourseId(@RequestParam(defaultValue = "1") int pageNum,
                                                                   @RequestParam(defaultValue = "10") int pageSize,
                                                                   @PathVariable Long teacherId,
-                                                                  @PathVariable Long courseId) {
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.studentListByTeacherCourseId(teacherId, courseId, pageNum, pageSize));
+                                                                  @PathVariable Long courseId,
+                                                                  @RequestParam(name = "fuzzyColumn", required = false) String columnName,
+                                                                  @RequestParam(name = "fuzzyValue", required = false) String value) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.studentListByTeacherCourseId(pageNum, pageSize, columnName, value, teacherId, courseId));
     }
 
     @ApiOperation(value = "通过教师id找到教师教授的学生信息")
     @RequestMapping("/{teacherId}/studentList")
     public Result<PageInfo<StudentCourseVo>> studentCourseListByTeacherId(@RequestParam(defaultValue = "1") int pageNum,
                                                                           @RequestParam(defaultValue = "10") int pageSize,
-                                                                          @PathVariable Long teacherId) {
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.studentCourseListByTeacherId(pageNum, pageSize, teacherId));
+                                                                          @PathVariable Long teacherId,
+                                                                          @RequestParam(name = "fuzzyColumn", required = false) String columnName,
+                                                                          @RequestParam(name = "fuzzyValue", required = false) String value) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.studentCourseListByTeacherId(pageNum, pageSize, columnName, value, teacherId));
     }
 
 

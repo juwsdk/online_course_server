@@ -46,10 +46,10 @@ public interface TeacherService {
     Integer courseUpdate(CourseFile course, String bathpath) throws IOException;
 
     //查询教师教授的学生信息
-    PageInfo<Student> studentListByTeacherCourseId(Long teacherId, Long courseId, int pageNum, int pageSize);
+    PageInfo<Student> studentListByTeacherCourseId(int pageNum, int pageSize, String columnName, String value, Long teacherId, Long courseId);
 
     //查询教师所有开课所有学生选择的信息
-    PageInfo<StudentCourseVo> studentCourseListByTeacherId(int pageNum, int pageSize, Long teacherId);
+    PageInfo<StudentCourseVo> studentCourseListByTeacherId(int pageNum, int pageSize, String columnName, String value, Long teacherId);
 
     //教师布置作业,向作业表插入数据
     Integer addHomeWork(CourseHomework courseHomework);
