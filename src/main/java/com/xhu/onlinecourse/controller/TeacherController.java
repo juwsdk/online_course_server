@@ -31,7 +31,7 @@ public class TeacherController {
 
 
     @ApiOperation(value = "查询所有教师信息")
-    @RequestMapping("/teacherList")
+    @RequestMapping(value = "/teacherList", method = RequestMethod.GET)
     public Result<PageInfo<Teacher>> teacherList(@RequestParam(defaultValue = "1") int pageNum,
                                                  @RequestParam(defaultValue = "10") int pageSize,
                                                  @RequestParam(name = "fuzzyColumn", required = false) String columnName,
@@ -42,7 +42,7 @@ public class TeacherController {
     @ApiOperation(value = "删除教师")
     @RequestMapping(value = "/teacherDelete", method = RequestMethod.POST)
     public Result<Integer> teacherDelete(@RequestBody Teacher teacher) {
-        System.err.println(teacher);
+//        System.err.println(teacher);
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), teacherService.teacherDelete(teacher));
     }
 
@@ -89,7 +89,7 @@ public class TeacherController {
     }
 
     @ApiOperation(value = "通过课程id和教师id查询该教师教授的学生信息")
-    @RequestMapping("/{courseId}/{teacherId}/studentList")
+    @RequestMapping(value = "/{courseId}/{teacherId}/studentList", method = RequestMethod.GET)
     public Result<PageInfo<Student>> studentListByTeacherCourseId(@RequestParam(defaultValue = "1") int pageNum,
                                                                   @RequestParam(defaultValue = "10") int pageSize,
                                                                   @PathVariable Long teacherId,
@@ -100,7 +100,7 @@ public class TeacherController {
     }
 
     @ApiOperation(value = "通过教师id找到教师教授的学生信息")
-    @RequestMapping("/{teacherId}/studentList")
+    @RequestMapping(value = "/{teacherId}/studentList", method = RequestMethod.GET)
     public Result<PageInfo<StudentCourseVo>> studentCourseListByTeacherId(@RequestParam(defaultValue = "1") int pageNum,
                                                                           @RequestParam(defaultValue = "10") int pageSize,
                                                                           @PathVariable Long teacherId,

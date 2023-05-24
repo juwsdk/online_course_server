@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Map;
 
 @Api(value = "学生接口")
@@ -20,7 +21,7 @@ public class StudentController {
     private StudentService studentService;
 
     @ApiOperation(value = "查询所有学生")
-    @RequestMapping("/studentList")
+    @RequestMapping(value = "/studentList", method = RequestMethod.GET)
     public Result<PageInfo<Student>> studentList(@RequestParam(defaultValue = "1") int pageNum,
                                                  @RequestParam(defaultValue = "10") int pageSize,
                                                  @RequestParam(name = "fuzzyColumn", required = false) String columnName,

@@ -48,4 +48,57 @@
         from adm
         where adm_id = #{admId}
     </select>
+    <select id="teacherSta" resultType="com.xhu.onlinecourse.entity.vo.admSta.TeacherStaVo">
+        SELECT t.teacher_id,teacher_name,course_id,course_name
+        FROM teacher t,course c
+        WHERE t.teacher_id=c.teacher_id
+        <choose>
+            <when test="columnName=='teacherId'">
+                And t.teacher_id like '%${value}%'
+            </when>
+            <when test="columnName=='teacherName'">
+                And teacher_name like '%${value}%'
+            </when>
+            <when test="columnName=='courseId'">
+                And course_id like '%${value}%'
+            </when>
+            <when test="columnName=='courseName'">
+                And course_name like '%${value}%'
+            </when>
+            <otherwise></otherwise>
+        </choose>
+    </select>
+    <select id="studentSta" resultType="com.xhu.onlinecourse.entity.vo.admSta.StudentStaVo">
+        select s.student_id,s.student_name,c.course_id,c.course_name
+        from student s,course c,course_stu cs
+        where c.course_id=cs.course_id
+        and cs.student_id=s.student_id
+        <choose>
+            <when test="columnName=='studentId'">
+                And s.student_id like '%${value}%'
+            </when>
+            <when test="columnName=='studentName'">
+                And s.student_name like '%${value}%'
+            </when>
+            <when test="columnName=='courseId'">
+                And c.course_id like '%${value}%'
+            </when>
+            <when test="columnName=='courseName'">
+                And c.course_name like '%${value}%'
+            </when>
+            <otherwise></otherwise>
+        </choose>
+    </select>
+    <select id="teacherStaById" resultType="java.lang.String">
+        select course_name
+        from course
+        where teacher_id = #{teacherId}
+    </select>
+    <select id="studentStaById" resultType="java.lang.String">
+        select c.course_name
+        from course c,
+             course_stu cs
+        where c.course_id = cs.course_id
+          and student_id = #{studentId}
+    </select>
 </mapper>

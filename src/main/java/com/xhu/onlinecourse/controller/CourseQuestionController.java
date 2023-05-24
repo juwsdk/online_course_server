@@ -3,7 +3,6 @@ package com.xhu.onlinecourse.controller;
 import com.github.pagehelper.PageInfo;
 import com.xhu.onlinecourse.entity.CourseAttendance;
 import com.xhu.onlinecourse.entity.CourseQuestions;
-import com.xhu.onlinecourse.entity.Student;
 import com.xhu.onlinecourse.service.CourseQuestionsService;
 import com.xhu.onlinecourse.utils.Result;
 import com.xhu.onlinecourse.utils.ResultCode;
@@ -48,7 +47,7 @@ public class CourseQuestionController {
     }
 
     @ApiOperation(value = "教师查询所有学生打卡信息")
-    @RequestMapping(value = "/{courseId}/studentClock")
+    @RequestMapping(value = "/{courseId}/studentClock", method = RequestMethod.GET)
     public Result<PageInfo<CourseAttendance>> allStudentIsClock(@PathVariable Long courseId,
                                                                 @RequestParam(defaultValue = "1") int pageNum,
                                                                 @RequestParam(defaultValue = "10") int pageSize,

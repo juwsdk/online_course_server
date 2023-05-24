@@ -48,14 +48,16 @@ public class JwtFilter extends AuthenticatingFilter {
         if (token != null && token.startsWith("Bearer ")) {
             token = token.replace("Bearer ", "");
         }
-        System.out.println(token);
+        if (StringUtils.isEmpty(token))
+            return true;//不需要token页面直接返回 放行后端的德鲁伊和swagger
+//        System.out.println(token);
         //验证token合法性
         boolean isAccess = JwtUtils.validateToken(token);
         System.err.println(isAccess);
         if (!isAccess)
             throw new ExpiredCredentialsException("token已过期，请重新登录");
         boolean b = executeLogin(servletRequest, servletResponse);
-        System.out.println("登陆的结果是" + b);
+//        System.out.println("登陆的结果是" + b);
         return b;//执行shiro的登录
     }
 

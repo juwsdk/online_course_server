@@ -46,14 +46,10 @@ public class LoginRegisterController {
             if (user.getLoginType().equals("admin")) {
                 claims.put("admType", loginRegisterService.getAdminType(user.getUserId()));
             }
-
             //生成jwt token并登录
             String token = JwtUtils.generateToken(claims);
-            System.out.println(token);
-            System.err.println(JwtUtils.validateToken(token));
-            //封装在响应头发送给前端
-//           response.setHeader("Authorization", token);
-//           response.setHeader("Access-control-Expose-Headers", "Authorization");
+//            System.out.println(token);
+//            System.err.println(JwtUtils.validateToken(token));
             tokenMap = new HashMap<>();
             tokenMap.put("Authorization", token);
         } else
@@ -74,7 +70,7 @@ public class LoginRegisterController {
     }
 
     @ApiOperation(value = "注销")
-    @RequestMapping("/logout")
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public Result Logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();

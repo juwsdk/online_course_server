@@ -1,6 +1,8 @@
 package com.xhu.onlinecourse.mapper;
 
 import com.xhu.onlinecourse.entity.Adm;
+import com.xhu.onlinecourse.entity.vo.admSta.StudentStaVo;
+import com.xhu.onlinecourse.entity.vo.admSta.TeacherStaVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,4 +24,17 @@ public interface AdmMapper {
 
     //更新管理员信息
     Integer admUpdate(Adm adm);
+
+    //统计教师教授课程信息
+    List<TeacherStaVo> teacherSta(@Param("columnName") String name, @Param("value") String value);
+
+    //统计学生课程信息
+    List<StudentStaVo> studentSta(@Param("columnName") String name, @Param("value") String value);
+
+    //根据id统计教师教授课程信息
+    List<String> teacherStaById(@Param("teacherId") Long teacherId);
+
+    //根据id统计学生选课信息
+    List<String> studentStaById(@Param("studentId") Long studentId);
+
 }

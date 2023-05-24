@@ -70,7 +70,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/dataCommit/register/student", "anon");
         filterChainDefinitionMap.put("/dataCommit/logout", "anon");
         filterChainDefinitionMap.put("/swagger-ui/#/**", "anon");
-        filterChainDefinitionMap.put("/durid/**", "anon");
+        filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/**", "authc");//authc
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;

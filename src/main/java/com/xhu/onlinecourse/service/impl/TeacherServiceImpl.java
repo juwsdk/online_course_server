@@ -212,7 +212,9 @@ public class TeacherServiceImpl implements TeacherService {
             return 0;//没有这个文件夹，返回删除失败
         }
         //更新数据库
-        return teacherMapper.teacherDeleteAllRes(courseId);
+        Integer integer = teacherMapper.teacherDeleteAllRes(courseId);
+        System.err.println(integer);
+        return integer;
     }
 
     @Override//教师删除指定的学生

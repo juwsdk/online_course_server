@@ -29,7 +29,10 @@
     <update id="teacherResAlter">
         update course_res
         set res_video_name=#{resVideoName},
-            res_blues=#{resBlues}
+        res_blues=#{resBlues}
+        <if test="copyright!=null">
+            ,copyright=#{copyright}
+        </if>
         where course_res_id = #{courseResId}
     </update>
     <!--修改教师信息-->

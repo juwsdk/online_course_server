@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class JwtUtils {
 
-    private static final String SECRET_KEY = "FDNJUHU&^&899JL";
+    private static final String SECRET_KEY = "WFDNJUHU&^&762JLP";
 
     // 生成Token
     public static String generateToken(Map<String, Object> claims) {

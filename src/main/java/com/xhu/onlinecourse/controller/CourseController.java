@@ -24,7 +24,7 @@ public class CourseController {
 
     //课程选择页面发送的信息
     @ApiOperation(value = "查询所有课程")
-    @RequestMapping(value = "/courseList")
+    @RequestMapping(value = "/courseList", method = RequestMethod.GET)
     public Result<PageInfo<CourseTeacherVo>> courseList(@RequestParam(defaultValue = "1") int pageNum,
                                                         @RequestParam(defaultValue = "5") int pageSize) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), courseService.courseList(pageNum, pageSize));
@@ -32,14 +32,14 @@ public class CourseController {
 
     //返回课程详情用作展示
     @ApiOperation("通过课程Id查询课程详情")
-    @RequestMapping(value = "/courseSelectDetail")
+    @RequestMapping(value = "/courseSelectDetail", method = RequestMethod.GET)
     public Result<CourseTeacherVo> getCourseById(@RequestParam(name = "courseId") Long courseId) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), courseService.getCourseById(courseId));
     }
 
     //学生已经选择了课程后的课程接口发送的信息
     @ApiOperation(value = "根据学号查询学生选择的课程")
-    @RequestMapping(value = "/{studentId}/courseList")
+    @RequestMapping(value = "/{studentId}/courseList", method = RequestMethod.GET)
     public Result<PageInfo<CourseTeacherVo>> stuCourseList(@PathVariable Long studentId,
                                                            @RequestParam(defaultValue = "1") int pageNum,
                                                            @RequestParam(defaultValue = "10") int pageSize) {
@@ -79,8 +79,8 @@ public class CourseController {
     }
 
     @ApiOperation(value = "根据学生Id发送课程总数与学生选课数")
-    @RequestMapping(value = "/{studentId}/countCourse")
-    public Result<Map<String, Object>> stduentCourseCount(@PathVariable Long studentId) {
+    @RequestMapping(value = "/{studentId}/countCourse", method = RequestMethod.GET)
+    public Result<Map<String, Object>> studentCourseCount(@PathVariable Long studentId) {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), courseService.stduentCourseCount(studentId));
     }
 
